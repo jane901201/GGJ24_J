@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+//TODO:觸發事件後要讓事件消失
 public class RoomManager : MonoBehaviour
 {
     public Transform cameraTransform;

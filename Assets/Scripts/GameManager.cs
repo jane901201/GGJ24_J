@@ -17,7 +17,9 @@ public class GameManager : MonoBehaviour
     public GameData gameData;
     public List<PuzzleData> puzzleDatas;
     public int currentCorrectNum = 0;
-    public MouseColor color;
+    public int currentFalseNum = 0;
+    public MouseColor roomMousecolor;
+    public MouseColor puzzleReturnColor;
     public float playerMoveDis = 5f;
     public float normalDuration = 10f;
     public float fleeDuration = 3f;
@@ -106,5 +108,23 @@ public class GameManager : MonoBehaviour
                 }
             })
             .OnComplete(() => Debug.Log("移動完成"));
+    }
+
+    public void VictoryCheck()
+    {
+        if (roomMousecolor == puzzleReturnColor)
+        {
+            currentCorrectNum++;
+        }
+        else if(roomMousecolor != puzzleReturnColor)
+        {
+            currentCorrectNum = 0;
+            currentFalseNum++;
+        }
+
+        if (currentCorrectNum >= 3)
+        {
+            
+        }
     }
 }
