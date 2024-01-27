@@ -5,8 +5,6 @@ using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
-using UnityEngine.UI;
-using static UnityEngine.UI.CanvasScaler;
 
 /// <summary>
 /// 管小遊戲謎題
@@ -31,8 +29,6 @@ public class UIManager : MonoBehaviour
     ItemSlot currentSelectOnBagItem;
     Item currentSelectGoatItem;
 
-    PuzzleManager puzzleManager;
-
     private void Awake()
     {
         if (Instance == null)
@@ -42,13 +38,12 @@ public class UIManager : MonoBehaviour
 
         puzzleDatas = GetComponentsInChildren<PuzzleData>().ToList();
         Assert.IsNotNull(puzzleDatas);
-        puzzleManager = new PuzzleManager();
         Debug.Log("UiManager awake");
     }
 
     private void Start()
     {
-        puzzleManager.Init();
+        PuzzleManager.Instance.Init();
         showPanelButton.OnClick += DoShowUIPannel;
         showPanelButton.SetVisible(true);
 
@@ -89,6 +84,13 @@ public class UIManager : MonoBehaviour
         Debug.Log($"SetCurrentGoatItem {item.name}");
         currentSelectGoatItem = item;
         OnCurrentGoatItemClick?.Invoke(item);
+    }
+
+    public void RemoveCurrentBagItem(Item slot)
+    {
+        Debug.Log($"RemoveCurrentBagItem");
+        currentSelectOnBagItem = null;
+        bag.RemoveToBag(slot);
     }
 
     private void MoveUIPanel(bool isValid)

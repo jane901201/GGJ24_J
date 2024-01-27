@@ -30,8 +30,9 @@ public class Bag : MonoBehaviour
 
     public void RemoveToBag(Item item)
     {
-        var tempItem = allItems.Where(data => data.name == item.name).FirstOrDefault();
-        Destroy(tempItem);
+        var tempItem = allItems.Where(data => data.ItemData.name == item.name).FirstOrDefault();
+
+        Destroy(tempItem.gameObject);
     }
 
 

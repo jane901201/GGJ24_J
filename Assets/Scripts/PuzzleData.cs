@@ -40,11 +40,6 @@ public class PuzzleData : MonoBehaviour
             });
         }
     }
-
-    private void DoGoatEvent(Item item)
-    {
-        Debug.Log($"DoGoatEvent {item.name}");
-    }
 }
 
 
