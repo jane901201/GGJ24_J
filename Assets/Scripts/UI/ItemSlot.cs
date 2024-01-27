@@ -22,6 +22,7 @@ public class ItemSlot : MonoBehaviour
     {
         itemData = data;
         buttonController.OnClick += OnClickSlot;
+        buttonController.SetSprite(data.sprite.sprite);
     }
 
     private void OnClickSlot()

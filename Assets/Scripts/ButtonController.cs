@@ -9,6 +9,7 @@ public class ButtonController : MonoBehaviour, IButtonController
     public bool Pickable => pickable;
 
     public Action OnClick { get; set; }
+
     [SerializeField] bool pickable;
 
     Button button;
@@ -52,5 +53,9 @@ public class ButtonController : MonoBehaviour, IButtonController
         canvasGroup.interactable = isValid;
     }
 
+    public void SetSprite(Sprite sprite)
+    {
+        image.sprite = sprite;
+    }
 
 }
