@@ -36,6 +36,7 @@ public class RoomManager : MonoBehaviour
     public void Awake()
     {
         triggerPoint.OnTrigger += TriggerPointEvent;
+        rooms = new LinkedList<Room>();
     }
 
     public void Start()

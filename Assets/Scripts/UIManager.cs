@@ -39,6 +39,7 @@ public class UIManager : MonoBehaviour
         puzzleDatas = GetComponentsInChildren<PuzzleData>().ToList();
         Assert.IsNotNull(puzzleDatas);
         Debug.Log("UiManager awake");
+        RoomManager.OnPuzzleGame += DoOnPuzzple;
     }
 
     private void Start()
@@ -48,7 +49,13 @@ public class UIManager : MonoBehaviour
         showPanelButton.SetVisible(true);
 
         hidePanelButton.OnClick += DoHideUIPanel;
+    }
 
+    bool isPuzzing;
+    private void DoOnPuzzple()
+    {
+        isPuzzing = true;
+        Debug.Log("DoOnPuzzple");
     }
 
     private void DoHideUIPanel()
