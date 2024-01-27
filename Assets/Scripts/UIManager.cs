@@ -39,9 +39,8 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
 
-        puzzleDatas = GetComponentsInChildren<PuzzleData>().ToList();
+        puzzleDatas = GetComponentsInChildren<PuzzleData>(true).ToList();
         Assert.IsNotNull(puzzleDatas);
-        Debug.Log("UiManager awake");
         RoomManager.OnPuzzleGame += DoOnPuzzple;
     }
 
@@ -68,12 +67,26 @@ public class UIManager : MonoBehaviour
         MoveUIPanel(false);
         hidePanelButton.SetVisible(false);
     }
-
-    bool isPuzzing;
+    bool isFirst = true;
     private void DoOnPuzzple()
     {
-        isPuzzing = true;
-        Debug.Log("DoOnPuzzple");
+        if (isFirst)
+        {
+            bag.ResetBag();
+            puzzleDatas.First().gameObject.SetActive(true);
+            isFirst = false;
+        }
+        else
+        {
+            var random = UnityEngine.Random.Range(1, puzzleDatas.Count);
+            for (int i = 0; i < puzzleDatas.Count; i++)
+            {
+                puzzleDatas[i].gameObject.SetActive(false);
+            }
+            bag.ResetBag();
+            puzzleDatas[random].gameObject.SetActive(true);
+
+        }
         MoveUIPanel(true);
         PuzzleManager.Instance.IsPuzzleHide = false;
     }
@@ -88,8 +101,6 @@ public class UIManager : MonoBehaviour
 
     private void DoShowUIPannel()
     {
-        // check GameManager is puzzle type
-
         showPanelButton.SetVisible(false);
         hidePanelButton.SetVisible(true);
         MoveUIPanel(true);
@@ -101,7 +112,6 @@ public class UIManager : MonoBehaviour
         bag.AddToBag(item);
     }
 
-
     public void SetCurrentItem(ItemSlot itemSlot)
     {
         currentSelectOnBagItem = itemSlot;
@@ -110,14 +120,12 @@ public class UIManager : MonoBehaviour
 
     public void SetCurrentGoatItem(Item item)
     {
-        Debug.Log($"SetCurrentGoatItem {item.name}");
         currentSelectGoatItem = item;
         OnCurrentGoatItemClick?.Invoke(item);
     }
 
     public void RemoveCurrentBagItem(Item slot)
     {
-        Debug.Log($"RemoveCurrentBagItem");
         currentSelectOnBagItem = null;
         bag.RemoveToBag(slot);
     }
@@ -135,7 +143,6 @@ public class UIManager : MonoBehaviour
 
             var newItemButton = puzzleDatas[i].OtherNewItemButtonController.FirstOrDefault(item => item.name == itemName);
             newItemButton.SetVisible(true);
-            Debug.Log($"Check {newItemButton.name}");
             break;
         }
     }

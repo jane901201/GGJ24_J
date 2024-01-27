@@ -2,10 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
 [System.Serializable]
 public class AnimationEventWithParameters : UnityEvent<Item> { }
@@ -33,13 +31,13 @@ public class AnimationEventsOnInspector : MonoBehaviour
 
     public async void SetIsSccuess(bool isValid)
     {
-        Debug.Log("Wait for tcs");
-        await completeTcs.Task;
+        if (completeTcs != null)
+        {
+            await completeTcs.Task;
+        }
         await UniTask.Delay(1000);
-        Debug.Log("OK");
 
         PuzzleManager.Instance.SetPuzzleResult(isValid);
-
     }
     private async UniTask WaitAnimationPlayOver(int animationTime)
     {
@@ -63,25 +61,17 @@ public class AllAnimation
 {
     public List<AnimationEventData> animationEventData;
 
-
     public async UniTask PlayAnimation(int uid, UniTaskCompletionSource tcs)
     {
         animationEventData[uid].animator.SetTrigger($"{animationEventData[uid].animationName}");
 
         await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
 
-        // Check if the animation has completed
         if (!animationEventData[uid].animator.GetCurrentAnimatorStateInfo(0).IsName(animationEventData[uid].animationName))
         {
-            // Animation has completed, do something here
-            Debug.Log("Animation complete!");
             tcs.TrySetResult();
         }
-
-        Debug.Log("Animating");
         await tcs.Task;
-        Debug.Log("Animate Done");
-
     }
 }
 
@@ -91,6 +81,4 @@ public class AnimationEventData
     public Animator animator;
     public int previousAnimationTime;
     public string animationName;
-
-    public ButtonController button;
 }

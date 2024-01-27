@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 public class Bag : MonoBehaviour
 {
     [SerializeField] ItemSlot itemSlotPrefab;
-    [SerializeField]RectTransform contentRect;
+    [SerializeField] RectTransform contentRect;
 
     List<ItemSlot> allItems;
 
@@ -41,5 +41,18 @@ public class Bag : MonoBehaviour
     {
         Debug.Log($"current item click {slot.name}   {slot.ItemData.name}");
 
+    }
+
+    public void ResetBag()
+    {
+        for (int i = 0; i < allItems.Count; i++)
+        {
+            if (allItems[i] is null || allItems[i] == null)
+            {
+                continue;
+            }
+            Destroy(allItems[i].gameObject);
+        }
+        allItems.Clear();
     }
 }
