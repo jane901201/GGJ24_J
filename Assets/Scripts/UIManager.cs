@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 /// <summary>
@@ -8,31 +11,52 @@ using UnityEngine.UI;
 /// </summary>
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
 
-    public List<GameObject> puzzles; 
+    public List<GameObject> puzzles;
     public List<Button> itemButtons;
 
-    private void Start()
-    {
-        
-        
-    }
+    public Action<ItemSlot> OnCurrentItemClick;
+    public Action<Item> OnCurrentGoatItemClick;
 
-    public void PuzzleUpdate()
+    public ItemSlot CurrentSelectItem => currentSelectOnBagItem;
+    public Item CurrentSelectGoatItem => currentSelectGoatItem;
+
+    [SerializeField] Bag bag;
+
+    List<PuzzleData> puzzleDatas;
+    ItemSlot currentSelectOnBagItem;
+    Item currentSelectGoatItem;
+
+
+    private void Awake()
     {
-        for (int i = 0; i < itemButtons.Count; i++)
+        if (Instance == null)
         {
-            itemButtons[i].onClick.AddListener(() => TriggerEvent());   
-            
+            Instance = this;
         }
+
+        puzzleDatas = GetComponentsInChildren<PuzzleData>().ToList();
+        Assert.IsNotNull(puzzleDatas);
+        Debug.Log("UiManager awake");
     }
 
-    private void Update()
+    public void AddToBag(Item item)
     {
+        bag.AddToBag(item);
     }
 
-    public void TriggerEvent()
+
+    public void SetCurrentItem(ItemSlot itemSlot)
     {
-        
+        currentSelectOnBagItem = itemSlot;
+        OnCurrentItemClick?.Invoke(itemSlot);
+    }
+
+    public void SetCurrentGoatItem(Item item)
+    {
+        Debug.Log($"SetCurrentGoatItem {item.name}");
+        currentSelectGoatItem = item;
+        OnCurrentGoatItemClick?.Invoke(item);
     }
 }

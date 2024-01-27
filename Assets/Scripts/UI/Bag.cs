@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.Assertions;
+
+public class Bag : MonoBehaviour
+{
+    [SerializeField] ItemSlot itemSlotPrefab;
+    [SerializeField]RectTransform contentRect;
+
+    List<ItemSlot> allItems;
+
+
+    private void Awake()
+    {
+        allItems = new List<ItemSlot>();
+    }
+
+    public void AddToBag(Item item)
+    {
+        var tempitem = Instantiate(itemSlotPrefab, contentRect);
+        tempitem.Init(item);
+        allItems.Add(tempitem);
+
+
+        UIManager.Instance.OnCurrentItemClick += DoTriggerEvent;
+
+    }
+
+    public void RemoveToBag(Item item)
+    {
+        var tempItem = allItems.Where(data => data.name == item.name).FirstOrDefault();
+        Destroy(tempItem);
+    }
+
+
+
+    private void DoTriggerEvent(ItemSlot slot)
+    {
+        Debug.Log($"current item click {slot.name}   {slot.ItemData.name}");
+
+    }
+}
