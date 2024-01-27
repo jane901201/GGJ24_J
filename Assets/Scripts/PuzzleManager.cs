@@ -20,8 +20,10 @@ public class PuzzleManager
         }
     }
 
-    public Action<bool> IsSuccess;
+    public Action<bool> OnSuccessResult;
 
+
+    bool isSuccess;
 
     public void Init()
     {
@@ -50,5 +52,11 @@ public class PuzzleManager
             }
 
         }
+    }
+
+    public void SetPuzzleResult(bool isValid)
+    {
+        isSuccess = isValid;
+        OnSuccessResult?.Invoke(isSuccess);
     }
 }
