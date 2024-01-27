@@ -1,29 +1,28 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
-[Serializable]
 public class PuzzleData : MonoBehaviour
 {
+    public MouseColor triggerColor;
+    [SerializeField]
     public List<Item> items;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public List<Button> buttons;
 
-    // Update is called once per frame
-    void Update()
+    public void Awake()
     {
-        
+        buttons = GetComponentsInChildren<Button>().ToList();
     }
 }
 
+[System.Serializable]
 public struct Item
 {
     public string name;
+    public string triggerItem;
     public Sprite sprite;
 }

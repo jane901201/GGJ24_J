@@ -1,17 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+/// <summary>
+/// 管小遊戲謎題
+/// </summary>
 public class UIManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public List<GameObject> puzzles; 
+    public List<Button> itemButtons;
+
+    private void Start()
     {
+        
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PuzzleUpdate()
+    {
+        for (int i = 0; i < itemButtons.Count; i++)
+        {
+            itemButtons[i].onClick.AddListener(() => TriggerEvent());   
+            
+        }
+    }
+
+    private void Update()
+    {
+    }
+
+    public void TriggerEvent()
     {
         
     }

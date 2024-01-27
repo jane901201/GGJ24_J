@@ -8,8 +8,6 @@ public class GameData : ScriptableObject
     public int seconds;
     public int range;
     public MouseColor currentColor;
-    public int currentCorrectNum = 0;
-
 }
 
 public enum MouseColor
