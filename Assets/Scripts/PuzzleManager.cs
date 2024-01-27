@@ -1,18 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PuzzleManager : MonoBehaviour
+public class PuzzleManager
 {
-    // Start is called before the first frame update
-    void Start()
+
+
+    public void Init()
     {
-        
+        UIManager.Instance.OnCurrentGoatItemClick += DoEvent;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void DoEvent(Item item)
     {
-        
+        Debug.Log("<color=yellow>DoEvent trigger </color>");
     }
 }
