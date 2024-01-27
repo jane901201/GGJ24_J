@@ -22,7 +22,7 @@ public class ItemSlot : MonoBehaviour
     {
         itemData = data;
         buttonController.OnClick += OnClickSlot;
-        if (data.image.sprite != null)
+        if (data.image != null && data.image.sprite != null)
         {
             buttonController.SetSprite(data.image.sprite);
         }

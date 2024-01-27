@@ -58,4 +58,8 @@ public class ButtonController : MonoBehaviour, IButtonController
         image.sprite = sprite;
     }
 
+    public void SetInteracble(bool isValid)
+    {
+        button.interactable = isValid;
+    }
 }

@@ -21,6 +21,8 @@ public class PuzzleManager
     }
 
     public Action<bool> OnSuccessResult;
+    public Action<bool> OnAnimationStart, OnAnimationEnd;
+
     public bool IsSuccess => isSuccess;
 
     bool isSuccess;

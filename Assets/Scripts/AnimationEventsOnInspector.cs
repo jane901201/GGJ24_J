@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
@@ -15,7 +16,8 @@ public class AnimationEventsOnInspector : MonoBehaviour
     public AllAnimation allAnimation;
 
 
-    UniTaskCompletionSource animationTcs;
+
+    UniTaskCompletionSource animationTcs, completeTcs;
 
     private void Awake()
     {
@@ -24,12 +26,20 @@ public class AnimationEventsOnInspector : MonoBehaviour
 
     public async void PlayAnimation(int uid)
     {
+        PuzzleManager.Instance.OnAnimationStart?.Invoke(true);
+        completeTcs = new UniTaskCompletionSource();
         await WaitAnimationPlayOver(allAnimation.animationEventData[uid].previousAnimationTime);
-        allAnimation.PlayAnimation(uid);
+        await allAnimation.PlayAnimation(uid, completeTcs);
+        PuzzleManager.Instance.OnAnimationEnd?.Invoke(false);
     }
 
-    public void SetIsSccuess(bool isValid)
+    public async void SetIsSccuess(bool isValid)
     {
+        Debug.Log("Wait for tcs");
+        await completeTcs.Task;
+        await UniTask.Delay(1000);
+        Debug.Log("OK");
+
         PuzzleManager.Instance.SetPuzzleResult(isValid);
 
     }
@@ -51,12 +61,7 @@ public class AllAnimation
     public List<AnimationEventData> animationEventData;
 
 
-    private AllAnimation()
-    {
-
-    }
-
-    public void PlayAnimation(int uid)
+    public async UniTask PlayAnimation(int uid, UniTaskCompletionSource tcs)
     {
         //int index = animationEventData[uid].targetAnimatorName.IndexOf(animationEventData[uid].targetAnimatorName);
         animationEventData[uid].animator.SetTrigger($"{animationEventData[uid].animationName}");
@@ -66,8 +71,13 @@ public class AllAnimation
         originalPosition = animationEventData[uid].button.transform.position;
         AnimationEventData eventData = animationEventData[uid];
         eventData.button.transform.DOMoveY(jumpHeight, jumpDuration)
-            .SetLoops(jumpsRemaining * 2, LoopType.Yoyo);
-       //Debug.Log($"<color=green>PlayAnimatio PlayAnimation {animationEventData[uid].targetAnimatorName} {animationEventData[uid].animationName} </color>");
+            .SetLoops(jumpsRemaining * 2, LoopType.Yoyo).OnComplete(() => { tcs.TrySetResult(); });
+
+        Debug.Log("Animating");
+        await tcs.Task;
+        Debug.Log("Animate Done");
+
+        //Debug.Log($"<color=green>PlayAnimatio PlayAnimation {animationEventData[uid].targetAnimatorName} {animationEventData[uid].animationName} </color>");
     }
 
 
@@ -104,7 +114,6 @@ public class AnimationEventData
 {
     public Animator animator;
     public int previousAnimationTime;
-    //public string targetAnimatorName;
     public string animationName;
 
     public ButtonController button;

@@ -50,6 +50,21 @@ public class UIManager : MonoBehaviour
         showPanelButton.SetVisible(false);
 
         hidePanelButton.OnClick += DoHideUIPanel;
+
+        PuzzleManager.Instance.OnSuccessResult += DoEndPuzzle;
+        PuzzleManager.Instance.OnAnimationStart += SetInteracbleClickOnShowButton;
+        PuzzleManager.Instance.OnAnimationEnd += SetInteracbleClickOnShowButton;
+    }
+
+    private void SetInteracbleClickOnShowButton(bool isValid)
+    {
+        hidePanelButton.SetInteracble(!isValid);
+    }
+
+    private void DoEndPuzzle(bool isValid)
+    {
+        MoveUIPanel(false);
+        hidePanelButton.SetVisible(false);
     }
 
     bool isPuzzing;
