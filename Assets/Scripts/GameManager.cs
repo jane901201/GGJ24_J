@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public int currentCorrectNum = 0;
     public MouseColor color;
     public float playerMoveDis = 5f;
+    public float normalDuration = 10f;
+    public float fleeDuration = 3f;
     
     public GameObject playerCamera;
 
@@ -48,7 +50,12 @@ public class GameManager : MonoBehaviour
 
     public void PlayerForwordMove()
     {
-        playerCamera.transform.DOMove(playerCamera.transform.position + Vector3.forward * playerMoveDis, 10.0f)
+        Vector3 moveDir;
+        if(playerCamera.transform.rotation.y == 0)
+            moveDir = Vector3.forward;
+        else
+            moveDir = Vector3.back;
+        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis, normalDuration)
             .SetEase(Ease.Linear)
             .OnUpdate(() =>
             {
@@ -65,15 +72,28 @@ public class GameManager : MonoBehaviour
 
     public void PlayerFleeMove()
     {
-        playerCamera.transform.DORotate(new Vector3(0.0f, 180.0f, 0.0f), 1.5f)
+        Vector3 moveDir;
+        float rotationY = 0f;
+        if (playerCamera.transform.rotation.y == 0)
+        {
+            moveDir = Vector3.back;
+            rotationY = 180f;
+        }
+        else
+        {
+            moveDir = Vector3.forward;
+            rotationY = 0f;
+        }
+
+        playerCamera.transform.DORotate(new Vector3(0.0f, rotationY, 0.0f), 1.5f)
             .SetEase(Ease.Linear) // 設定旋轉的緩動曲線
             .OnComplete(() => Debug.Log("旋轉完成")); // 在旋轉完成時執行的回調
 
-        playerCamera.transform.DOMove(playerCamera.transform.position + Vector3.back * playerMoveDis/2, 5.0f)
+        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis, fleeDuration)
             .SetEase(Ease.InOutQuad)
             .OnComplete(() => Debug.Log("兩倍移動完成")); // 使用 Quad 曲線實現變速效果
         
-        playerCamera.transform.DOMove(playerCamera.transform.position + Vector3.back * playerMoveDis, 10.0f)
+        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis*2, normalDuration)
             .SetEase(Ease.Linear)
             .OnUpdate(() =>
             {
