@@ -14,6 +14,8 @@ public class RoomManager : MonoBehaviour
     public Vector3 initinalRoom;
     public int currentIndex = 0;
     public bool isSucceed = true;
+    [Tooltip("遊戲結束的時候要生門出來")]
+    public GameObject door;
 
     private LinkedList<Room> rooms;
     public static bool isSolvingPuzzle = false;
