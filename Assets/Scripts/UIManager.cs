@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
 
-        puzzleDatas = GetComponentsInChildren<PuzzleData>().ToList();
+        puzzleDatas = GetComponentsInChildren<PuzzleData>(true).ToList();
         Assert.IsNotNull(puzzleDatas);
         RoomManager.OnPuzzleGame += DoOnPuzzple;
     }
@@ -67,9 +67,26 @@ public class UIManager : MonoBehaviour
         MoveUIPanel(false);
         hidePanelButton.SetVisible(false);
     }
-
+    bool isFirst = true;
     private void DoOnPuzzple()
     {
+        if (isFirst)
+        {
+            bag.ResetBag();
+            puzzleDatas.First().gameObject.SetActive(true);
+            isFirst = false;
+        }
+        else
+        {
+            var random = UnityEngine.Random.Range(1, puzzleDatas.Count);
+            for (int i = 0; i < puzzleDatas.Count; i++)
+            {
+                puzzleDatas[i].gameObject.SetActive(false);
+            }
+            bag.ResetBag();
+            puzzleDatas[random].gameObject.SetActive(true);
+
+        }
         MoveUIPanel(true);
     }
 

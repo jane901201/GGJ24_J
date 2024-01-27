@@ -31,7 +31,10 @@ public class AnimationEventsOnInspector : MonoBehaviour
 
     public async void SetIsSccuess(bool isValid)
     {
-        await completeTcs.Task;
+        if (completeTcs != null)
+        {
+            await completeTcs.Task;
+        }
         await UniTask.Delay(1000);
 
         PuzzleManager.Instance.SetPuzzleResult(isValid);

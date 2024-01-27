@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     public void PlayerMove(bool isSucceed)
     {
+        RoomManager.isSolvingPuzzle = false;
         if (isSucceed)
             PlayerForwordMove();
         else
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviour
             moveDir = Vector3.forward;
             rotationY = 0f;
         }
-
+        Debug.Log("<color=green>GO</color>");
         playerCamera.transform.DORotate(new Vector3(0.0f, rotationY, 0.0f), 1.5f)
             .SetEase(Ease.Linear) // 設定旋轉的緩動曲線
             .OnComplete(() => Debug.Log("旋轉完成")); // 在旋轉完成時執行的回調
