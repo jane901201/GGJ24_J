@@ -6,6 +6,21 @@ using UnityEngine;
 
 public class PuzzleManager
 {
+    static PuzzleManager instance;
+
+    public static PuzzleManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new PuzzleManager();
+            }
+            return instance;
+        }
+    }
+
+    public Action<bool> IsSuccess;
 
 
     public void Init()
@@ -25,6 +40,8 @@ public class PuzzleManager
             {
                 Debug.Log("<color=green>success</color>");
                 UIManager.Instance.CurrentSelectGoatItem.triggerEvent?.Invoke();
+                UIManager.Instance.RemoveCurrentBagItem(UIManager.Instance.CurrentSelectItem.ItemData);
+                
             }
             else
             {
