@@ -41,7 +41,6 @@ public class UIManager : MonoBehaviour
 
         puzzleDatas = GetComponentsInChildren<PuzzleData>().ToList();
         Assert.IsNotNull(puzzleDatas);
-        Debug.Log("UiManager awake");
         RoomManager.OnPuzzleGame += DoOnPuzzple;
     }
 
@@ -69,11 +68,8 @@ public class UIManager : MonoBehaviour
         hidePanelButton.SetVisible(false);
     }
 
-    bool isPuzzing;
     private void DoOnPuzzple()
     {
-        isPuzzing = true;
-        Debug.Log("DoOnPuzzple");
         MoveUIPanel(true);
     }
 
@@ -87,8 +83,6 @@ public class UIManager : MonoBehaviour
 
     private void DoShowUIPannel()
     {
-        // check GameManager is puzzle type
-
         showPanelButton.SetVisible(false);
         hidePanelButton.SetVisible(true);
         MoveUIPanel(true);
@@ -100,7 +94,6 @@ public class UIManager : MonoBehaviour
         bag.AddToBag(item);
     }
 
-
     public void SetCurrentItem(ItemSlot itemSlot)
     {
         currentSelectOnBagItem = itemSlot;
@@ -109,14 +102,12 @@ public class UIManager : MonoBehaviour
 
     public void SetCurrentGoatItem(Item item)
     {
-        Debug.Log($"SetCurrentGoatItem {item.name}");
         currentSelectGoatItem = item;
         OnCurrentGoatItemClick?.Invoke(item);
     }
 
     public void RemoveCurrentBagItem(Item slot)
     {
-        Debug.Log($"RemoveCurrentBagItem");
         currentSelectOnBagItem = null;
         bag.RemoveToBag(slot);
     }
@@ -134,7 +125,6 @@ public class UIManager : MonoBehaviour
 
             var newItemButton = puzzleDatas[i].OtherNewItemButtonController.FirstOrDefault(item => item.name == itemName);
             newItemButton.SetVisible(true);
-            Debug.Log($"Check {newItemButton.name}");
             break;
         }
     }

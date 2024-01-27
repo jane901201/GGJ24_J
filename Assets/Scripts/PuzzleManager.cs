@@ -52,7 +52,6 @@ public class PuzzleManager
                     Debug.Log($"Do currentItem.triggerEvents[indexToCheck] {indexToCheck}");
                 }
                 UIManager.Instance.RemoveCurrentBagItem(UIManager.Instance.CurrentSelectItem.ItemData);
-                
             }
             else
             {
