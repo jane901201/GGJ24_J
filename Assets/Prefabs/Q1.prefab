@@ -220,16 +220,14 @@ MonoBehaviour:
     triggerItem:
     - 111
     image: {fileID: 8664822493780602116}
-    triggerEvent:
-      m_PersistentCalls:
-        m_Calls: []
+    triggerEvents: []
   - name: Goat
     triggerItem:
     - 111
     - 112
     image: {fileID: 5085755243592509067}
-    triggerEvent:
-      m_PersistentCalls:
+    triggerEvents:
+    - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 5417271920693211903}
           m_TargetAssemblyTypeName: AnimationEventsOnInspector, Assembly-CSharp
@@ -243,12 +241,7 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - name: Guitar_112
-    triggerItem:
-    - 112
-    image: {fileID: 2868202882938569174}
-    triggerEvent:
-      m_PersistentCalls:
+    - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 5417271920693211903}
           m_TargetAssemblyTypeName: AnimationEventsOnInspector, Assembly-CSharp
@@ -262,6 +255,23 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 5417271920693211903}
+          m_TargetAssemblyTypeName: AnimationEventsOnInspector, Assembly-CSharp
+          m_MethodName: SetIsSccuess
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
+  - name: Guitar_112
+    triggerItem:
+    - 112
+    image: {fileID: 2868202882938569174}
+    triggerEvents: []
 --- !u!114 &5417271920693211903
 MonoBehaviour:
   m_ObjectHideFlags: 0
