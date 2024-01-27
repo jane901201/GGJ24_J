@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PuzzleData : MonoBehaviour
 {
@@ -53,4 +54,5 @@ public struct Item
     public string name;
     public List<string> triggerItem;
     public Sprite sprite;
+    public UnityEvent triggerEvent;
 }

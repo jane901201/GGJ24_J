@@ -24,7 +24,7 @@ public class Bag : MonoBehaviour
         allItems.Add(tempitem);
 
 
-        UIManager.Instance.OnCurrentItemClick += DoTriggerEvent;
+        UIManager.Instance.OnCurrentItemClick = DoTriggerEvent;
 
     }
 

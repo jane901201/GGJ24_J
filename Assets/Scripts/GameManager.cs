@@ -9,6 +9,9 @@ using UnityEngine.Serialization;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
+    public bool IsPuzzong => isPuzzing;
+
     public UIManager uiManager;
     public GameData gameData;
     public List<PuzzleData> puzzleDatas;
@@ -16,8 +19,13 @@ public class GameManager : MonoBehaviour
     public MouseColor color;
 
 
+    bool isPuzzing;
+
     private void Awake()
     {
-        
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 }

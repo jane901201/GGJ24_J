@@ -12,10 +12,21 @@ public class ItemSlot : MonoBehaviour
     Item itemData;
     ButtonController buttonController;
 
+
     private void Awake()
     {
         buttonController = GetComponent<ButtonController>();
+        UIManager.Instance.OnCurrentItemClick += ResetButton;
     }
+
+    private void ResetButton(ItemSlot slot)
+    {
+        if (slot != this)
+        {
+            
+        }
+    }
+
     public void Init(Item data)
     {
         this.itemData = data;
@@ -26,5 +37,10 @@ public class ItemSlot : MonoBehaviour
     {
         UIManager.Instance.SetCurrentItem(this);
         OnClick?.Invoke(this);
+    }
+
+    internal object Any()
+    {
+        throw new NotImplementedException();
     }
 }
