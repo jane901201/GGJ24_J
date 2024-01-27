@@ -9,34 +9,58 @@ public class PuzzleData : MonoBehaviour
 {
     public MouseColor triggerColor;
 
-    [SerializeField]
-    public List<Item> items;
+    public List<Item> OtherNewItems => otherSecretItems;
+    public List<ButtonController> OtherNewItemButtonController => scretButtons;
 
-    List<ButtonController> buttons;
+    [SerializeField] List<ButtonController> notScretButtons;
+    [SerializeField] List<ButtonController> scretButtons;
+
+    [SerializeField] public List<Item> items;
+    [SerializeField] List<Item> otherSecretItems;
+
 
     public void Awake()
     {
-        buttons = new List<ButtonController>();
-        buttons = GetComponentsInChildren<ButtonController>().ToList();
     }
 
     private void Start()
     {
-        for (int i = 0; i < buttons.Count; i++)
+        for (int i = 0; i < notScretButtons.Count; i++)
         {
             var j = i;
-            
-            buttons[i].OnClick += (() =>
+
+            notScretButtons[i].OnClick += (() =>
             {
-                if (buttons[j].Pickable)
+                if (notScretButtons[j].Pickable)
                 {
                     UIManager.Instance.AddToBag(items[j]);
-                    buttons[j].gameObject.SetActive(false);
+                    notScretButtons[j].gameObject.SetActive(false);
                 }
                 else
                 {
                     UIManager.Instance.SetCurrentGoatItem(items[j]);
                 }
+                notScretButtons[j].SetItemData(items[j]);
+            });
+        }
+
+        for (int i = 0; i < scretButtons.Count; i++)
+        {
+            var j = i;
+
+            scretButtons[i].OnClick += (() =>
+            {
+                if (scretButtons[j].Pickable)
+                {
+                    UIManager.Instance.AddToBag(otherSecretItems[j]);
+                    scretButtons[j].gameObject.SetActive(false);
+                }
+                else
+                {
+                    UIManager.Instance.SetCurrentGoatItem(otherSecretItems[j]);
+                }
+                scretButtons[j].SetItemData(items[j]);
+
             });
         }
     }

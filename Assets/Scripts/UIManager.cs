@@ -30,6 +30,8 @@ public class UIManager : MonoBehaviour
     ItemSlot currentSelectOnBagItem;
     Item currentSelectGoatItem;
 
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -124,5 +126,17 @@ public class UIManager : MonoBehaviour
         uiPanel.DOMoveY(isValid ? +540 : -1200 + 540, 0.5f).SetEase(Ease.OutQuad);
     }
 
+    public void EnableNewItem(string itemName)
+    {
+        for (int i = 0; i < puzzleDatas.Count; i++)
+        {
+            Debug.Log($"Check {puzzleDatas[i].name}  // {itemName}");
+
+            var newItemButton = puzzleDatas[i].OtherNewItemButtonController.FirstOrDefault(item => item.name == itemName);
+            newItemButton.SetVisible(true);
+            Debug.Log($"Check {newItemButton.name}");
+            break;
+        }
+    }
 
 }

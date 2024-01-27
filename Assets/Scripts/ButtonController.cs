@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ButtonController : MonoBehaviour, IButtonController
 {
     public bool Pickable => pickable;
-
+    public Item Item => item;
     public Action OnClick { get; set; }
 
     [SerializeField] bool pickable;
@@ -15,12 +15,17 @@ public class ButtonController : MonoBehaviour, IButtonController
     Button button;
     Image image;
     CanvasGroup canvasGroup;
+    Item item;
+    public void SetItemData(Item data)
+    {
+        item = data;
+    }
 
     private void Awake()
     {
-        button = GetComponent<Button>();
-        canvasGroup = GetComponent<CanvasGroup>();
-        image = GetComponent<Image>();
+        button = GetComponentInChildren<Button>(true);
+        canvasGroup = GetComponentInChildren<CanvasGroup>(true);
+        image = GetComponentInChildren<Image>(true);
 
         RegisterEvenets();
 

@@ -53,7 +53,7 @@ public class AnimationEventsOnInspector : MonoBehaviour
 
     public void AddItem(string itemName)
     {
-
+        UIManager.Instance.EnableNewItem(itemName);
     }
 }
 

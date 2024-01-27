@@ -41,7 +41,7 @@ public class PuzzleManager
             var currentItem = UIManager.Instance.CurrentSelectGoatItem;
             var success = currentItem.triggerItem.Any(item => UIManager.Instance.CurrentSelectItem.ItemData.triggerItem.Contains(item));
 
-            int indexToCheck = currentItem.triggerItem.IndexOf(UIManager.Instance.CurrentSelectItem.ItemData.triggerItem.First());
+            int indexToCheck = currentItem.triggerItem.IndexOf(UIManager.Instance.CurrentSelectItem.ItemData.triggerItem.FirstOrDefault());
             if (success)
             {
                 Debug.Log("<color=green>success</color>");
