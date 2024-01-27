@@ -49,5 +49,5 @@ public struct Item
     public string name;
     public List<string> triggerItem;
     public Image image;
-    public AnimationEventWithParameters triggerEvent;
+    public List<AnimationEventWithParameters> triggerEvents;
 }

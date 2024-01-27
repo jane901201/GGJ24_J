@@ -38,12 +38,19 @@ public class PuzzleManager
 
         if (UIManager.Instance.CurrentSelectItem != null)
         {
-            var success = UIManager.Instance.CurrentSelectGoatItem.triggerItem.Any(item => UIManager.Instance.CurrentSelectItem.ItemData.triggerItem.Contains(item));
+            var currentItem = UIManager.Instance.CurrentSelectGoatItem;
+            var success = currentItem.triggerItem.Any(item => UIManager.Instance.CurrentSelectItem.ItemData.triggerItem.Contains(item));
 
+            int indexToCheck = currentItem.triggerItem.IndexOf(UIManager.Instance.CurrentSelectItem.ItemData.triggerItem.First());
             if (success)
             {
                 Debug.Log("<color=green>success</color>");
-                UIManager.Instance.CurrentSelectGoatItem.triggerEvent?.Invoke(item);
+
+                if (indexToCheck >= 0 && indexToCheck < currentItem.triggerEvents.Count)
+                {
+                    currentItem.triggerEvents[indexToCheck]?.Invoke(item);
+                    Debug.Log($"Do currentItem.triggerEvents[indexToCheck] {indexToCheck}");
+                }
                 UIManager.Instance.RemoveCurrentBagItem(UIManager.Instance.CurrentSelectItem.ItemData);
                 
             }
