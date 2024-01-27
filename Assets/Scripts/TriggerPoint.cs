@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class TriggerPoint : MonoBehaviour
 {
-    public event Action<String> OnTrigger;
+    public event Action<GameObject> OnTrigger;
     
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "CheckPoint")
         {
             Debug.Log("Trigger");
-            OnTrigger.Invoke(other.gameObject.name);
+            OnTrigger.Invoke(other.gameObject);
         }
     }
 }

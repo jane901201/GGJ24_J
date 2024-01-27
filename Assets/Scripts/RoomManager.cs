@@ -47,16 +47,25 @@ public class RoomManager : MonoBehaviour
         InitinalRoom();
     }
     
-    public void TriggerPointEvent(string name)
+    public void TriggerPointEvent(GameObject gameObject)
     {
-        if (name == "CreateRoomCheckPoint")
+        if (gameObject.name == "CreateRoomCheckPoint")
         {
             CreateRoom();
         }
-        else if (name == "EventCheckPoint")
+        else if (gameObject.name == "EventCheckPoint")
         {
             isSolvingPuzzle = true;
             OnPuzzleGame.Invoke();
+            Destroy(gameObject);
+        }
+        else if(gameObject.name == "TestMouse")
+        {
+            //TODO:直接 GameOver 還是什麼?
+        }
+        else if(gameObject.name == "Door")
+        {
+            //TODO:播放勝利的動畫
         }
     }
 
@@ -125,10 +134,5 @@ public class RoomManager : MonoBehaviour
             else
                 CreateForwordRoom();
         }
-    }
-    
-    public void SetPuzzleGameCheckPosition()
-    {
-        //設定 Puzzle 的隨機位置
     }
 }
