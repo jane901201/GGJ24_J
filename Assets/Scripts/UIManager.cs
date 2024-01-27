@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour
 
     public Action<ItemSlot> OnCurrentItemClick;
     public Action<Item> OnCurrentGoatItemClick;
+    public Action<bool> OnHideUiPanel;
 
     public ItemSlot CurrentSelectItem => currentSelectOnBagItem;
     public Item CurrentSelectGoatItem => currentSelectGoatItem;
@@ -46,7 +47,7 @@ public class UIManager : MonoBehaviour
     {
         PuzzleManager.Instance.Init();
         showPanelButton.OnClick += DoShowUIPannel;
-        showPanelButton.SetVisible(true);
+        showPanelButton.SetVisible(false);
 
         hidePanelButton.OnClick += DoHideUIPanel;
     }
@@ -56,12 +57,14 @@ public class UIManager : MonoBehaviour
     {
         isPuzzing = true;
         Debug.Log("DoOnPuzzple");
+        MoveUIPanel(true);
     }
 
     private void DoHideUIPanel()
     {
         MoveUIPanel(false);
         showPanelButton.SetVisible(true);
+        OnHideUiPanel?.Invoke(false);
 
     }
 
@@ -72,6 +75,7 @@ public class UIManager : MonoBehaviour
         showPanelButton.SetVisible(false);
         hidePanelButton.SetVisible(true);
         MoveUIPanel(true);
+        OnHideUiPanel?.Invoke(true);
     }
 
     public void AddToBag(Item item)

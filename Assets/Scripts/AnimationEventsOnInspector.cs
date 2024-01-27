@@ -59,7 +59,7 @@ public class AllAnimation
     public void PlayAnimation(int uid)
     {
         //int index = animationEventData[uid].targetAnimatorName.IndexOf(animationEventData[uid].targetAnimatorName);
-        //animationEventData[uid].animator.Play($"{animationEventData[uid].animationName}");
+        animationEventData[uid].animator.SetTrigger($"{animationEventData[uid].animationName}");
 
 
 
@@ -67,7 +67,7 @@ public class AllAnimation
         AnimationEventData eventData = animationEventData[uid];
         eventData.button.transform.DOMoveY(jumpHeight, jumpDuration)
             .SetLoops(jumpsRemaining * 2, LoopType.Yoyo);
-        Debug.Log($"<color=green>PlayAnimatio PlayAnimation {animationEventData[uid].targetAnimatorName} {animationEventData[uid].animationName} </color>");
+       //Debug.Log($"<color=green>PlayAnimatio PlayAnimation {animationEventData[uid].targetAnimatorName} {animationEventData[uid].animationName} </color>");
     }
 
 
@@ -104,7 +104,7 @@ public class AnimationEventData
 {
     public Animator animator;
     public int previousAnimationTime;
-    public string targetAnimatorName;
+    //public string targetAnimatorName;
     public string animationName;
 
     public ButtonController button;

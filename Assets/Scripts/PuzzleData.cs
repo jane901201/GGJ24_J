@@ -49,7 +49,7 @@ public struct Item
     public string name;
     public List<string> triggerItem;
     public Sprite sprite;
-    public Animator animator;
+    //public Animator animator;
     public AnimationEventWithParameters triggerEvent;
 
 }
