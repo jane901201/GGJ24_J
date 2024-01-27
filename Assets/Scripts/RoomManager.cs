@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 public class RoomManager : MonoBehaviour
 {
+    public Transform cameraTransform;
     [Tooltip("房間物件")]
     public GameObject room;
     public TriggerPoint triggerPoint;
@@ -13,7 +14,6 @@ public class RoomManager : MonoBehaviour
     public int createRoomRange;
     public Vector3 initinalRoom;
     public int currentIndex = 0;
-    public bool isSucceed = true;
     [Tooltip("遊戲結束的時候要生門出來")]
     public GameObject door;
 
@@ -110,10 +110,20 @@ public class RoomManager : MonoBehaviour
 
     public void CreateRoom()
     {
-        if(isSucceed)
-            CreateForwordRoom();
+        if (cameraTransform.rotation.y == 0)
+        {
+            if(PuzzleManager.Instance.IsSuccess)
+                CreateForwordRoom();
+            else
+                CreateBackRoom();
+        }
         else
-            CreateBackRoom();
+        {
+            if(PuzzleManager.Instance.IsSuccess)
+                CreateBackRoom();
+            else
+                CreateForwordRoom();
+        }
     }
     
     public void SetPuzzleGameCheckPosition()
