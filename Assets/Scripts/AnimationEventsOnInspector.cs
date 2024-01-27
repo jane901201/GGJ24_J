@@ -34,7 +34,7 @@ public class AnimationEventsOnInspector : MonoBehaviour
 
     public void SetIsSccuess(bool isValid)
     {
-        PuzzleManager.Instance.OnSuccessResult = isValid;
+        PuzzleManager.Instance.SetPuzzleResult(isValid);
 
     }
 
