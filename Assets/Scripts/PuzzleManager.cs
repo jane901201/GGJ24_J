@@ -25,6 +25,8 @@ public class PuzzleManager
 
     public bool IsSuccess => isSuccess;
 
+    public bool IsPuzzleHide = false;
+
     bool isSuccess;
 
     public void Init()

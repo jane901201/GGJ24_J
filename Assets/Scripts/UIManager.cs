@@ -75,6 +75,7 @@ public class UIManager : MonoBehaviour
         isPuzzing = true;
         Debug.Log("DoOnPuzzple");
         MoveUIPanel(true);
+        PuzzleManager.Instance.IsPuzzleHide = false;
     }
 
     private void DoHideUIPanel()
@@ -82,7 +83,7 @@ public class UIManager : MonoBehaviour
         MoveUIPanel(false);
         showPanelButton.SetVisible(true);
         OnHideUiPanel?.Invoke(false);
-
+        PuzzleManager.Instance.IsPuzzleHide = true;
     }
 
     private void DoShowUIPannel()
