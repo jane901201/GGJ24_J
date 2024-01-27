@@ -49,16 +49,7 @@ public struct Item
     public string name;
     public List<string> triggerItem;
     public Sprite sprite;
-    public List<Animator> animator;
-    public AnimationEventData animationEventData;
-    public UnityEvent triggerEvent;
+    public Animator animator;
+    public AnimationEventWithParameters triggerEvent;
 
-}
-
-[System.Serializable]
-public class AnimationEventData
-{
-    public int previousAnimationTime;
-    public string targetAnimatorName;
-    public string animationName;
 }

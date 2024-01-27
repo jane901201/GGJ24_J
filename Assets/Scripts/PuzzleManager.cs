@@ -41,7 +41,7 @@ public class PuzzleManager
             if (success)
             {
                 Debug.Log("<color=green>success</color>");
-                UIManager.Instance.CurrentSelectGoatItem.triggerEvent?.Invoke();
+                UIManager.Instance.CurrentSelectGoatItem.triggerEvent?.Invoke(item);
                 UIManager.Instance.RemoveCurrentBagItem(UIManager.Instance.CurrentSelectItem.ItemData);
                 
             }
