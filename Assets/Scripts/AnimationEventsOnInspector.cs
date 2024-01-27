@@ -50,6 +50,11 @@ public class AnimationEventsOnInspector : MonoBehaviour
             animationTcs.TrySetResult();
         }
     }
+
+    public void AddItem(string itemName)
+    {
+
+    }
 }
 
 
