@@ -38,4 +38,9 @@ public class ItemSlot : MonoBehaviour
         UIManager.Instance.SetCurrentItem(this);
         OnClick?.Invoke(this);
     }
+
+    internal object Any()
+    {
+        throw new NotImplementedException();
+    }
 }
