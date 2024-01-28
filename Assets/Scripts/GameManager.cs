@@ -40,15 +40,15 @@ public class GameManager : MonoBehaviour
     bool _isPuzzling;
     private GameObject currentActiveMouse;
     private float currentHaveTime = 0f;
-    
+
     public Animator victoryAnimator;
     public float victoryWaitTime = 10f;
     public string victoryTrigger = "Victory";
     public Animator gameOverAnimator;
     public float gameOverWaitTime = 10f;
     public string gameOverTrigger = "GameOver";
-    
-    
+
+
 
     private void Awake()
     {
@@ -89,10 +89,10 @@ public class GameManager : MonoBehaviour
         if (currentActiveMouse != null)
         {
             var sss = Mathf.Abs(currentActiveMouse.transform.position.magnitude - playerCamera.transform.position.magnitude);
-            Debug.Log($"CheckMouseAndCamDistance {sss}");
+            //Debug.Log($"CheckMouseAndCamDistance {sss}");
             if (sss <= 30)
             {
-                Debug.Log("Destory");
+                //Debug.Log("Destory");
 
                 currentActiveMouse.transform.position = playerCamera.transform.forward + new Vector3(0, 0, playerCamera.transform.position.z + OffSetPosition);
                 await UniTask.Delay(3000);
@@ -270,6 +270,12 @@ public class GameManager : MonoBehaviour
             .SetEase(Ease.Linear)
             .OnUpdate(() =>
             {
+                if (PuzzleManager.Instance.OnMouseStop == null)
+                {
+                    Debug.Log("<color=red> add event</color>");
+
+                    PuzzleManager.Instance.OnMouseStop += () => { Debug.Log("<color=red>Stop mouse</color>"); currentActiveMouse.transform.DOKill(); };
+                }
                 // 在 Tween 更新時檢查條件
                 if (PuzzleManager.Instance.IsPuzzleHide)
                 {
@@ -287,7 +293,7 @@ public class GameManager : MonoBehaviour
         //勝利動畫
         StartCoroutine(VictoryCoroutine());
     }
-    
+
     public IEnumerator VictoryCoroutine()
     {
         victoryAnimator.SetTrigger(victoryTrigger);
@@ -295,7 +301,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("VictoryAnimComplete");
         SceneManager.LoadScene("StartMenuScene");
     }
-    
+
     public void GameOver()
     {
         StartCoroutine(GameOverCoroutine());

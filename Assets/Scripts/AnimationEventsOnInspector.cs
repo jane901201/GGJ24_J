@@ -72,6 +72,7 @@ public class AnimationEventsOnInspector : MonoBehaviour
     /// <param name="colorNum"></param>
     public async void ReturnColor(int colorNum)
     {
+
         Debug.Log("ReturnColor await");
 
         Debug.Log("ReturnColor done");
@@ -88,6 +89,11 @@ public class AnimationEventsOnInspector : MonoBehaviour
         await UniTask.DelayFrame(ReturnColorWaitTime * 1000);
         SetIsSccuess(checkResult);
         GameManager.Instance.VictoryCheck();
+    }
+
+    public void StopMouseMove()
+    {
+        PuzzleManager.Instance.DoStopMouse();
     }
 }
 

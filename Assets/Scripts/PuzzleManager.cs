@@ -22,6 +22,7 @@ public class PuzzleManager
 
     public Action<bool> OnSuccessResult;
     public Action<bool> OnAnimationStart, OnAnimationEnd;
+    public Action OnMouseStop;
 
     public bool IsSuccess => isSuccess;
 
@@ -68,5 +69,11 @@ public class PuzzleManager
     {
         isSuccess = isValid;
         OnSuccessResult?.Invoke(isSuccess);
+    }
+
+    public void DoStopMouse()
+    {
+        Debug.Log("<color=yellow>DoStopMouse </color>");
+        OnMouseStop?.Invoke();
     }
 }
