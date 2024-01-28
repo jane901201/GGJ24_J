@@ -370,7 +370,7 @@ public class GameManager : MonoBehaviour
         victoryAnimator.SetActive(true);
         await UniTask.WaitForSeconds(victoryWaitTime);// new WaitForSeconds(victoryWaitTime);
         Debug.Log("VictoryAnimComplete");
-        SceneManager.LoadScene("StartMenuScene");
+        //SceneManager.LoadScene("StartMenuScene");
     }
 
 
@@ -384,6 +384,6 @@ public class GameManager : MonoBehaviour
         gameOverAnimator.SetActive(true);
         yield return new WaitForSeconds(gameOverWaitTime);
         Debug.Log("GameOver");
-        SceneManager.LoadScene("StartMenuScene");
+        //SceneManager.LoadScene("StartMenuScene");
     }
 }
