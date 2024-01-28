@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         PlayerForwordMove();
+        //StartCoroutine(TestRoomCreate());
     }
 
     private void Update()
@@ -71,6 +72,13 @@ public class GameManager : MonoBehaviour
         {
             //VictoryCheck();
         }
+    }
+
+    private IEnumerator TestRoomCreate()
+    {
+        PlayerForwordMove();
+        yield return new WaitForSeconds(3f);
+        PlayerFleeMove();
     }
 
     public void PlayerMove(bool isSucceed)
@@ -251,10 +259,12 @@ public class GameManager : MonoBehaviour
         if (playerCamera.transform.rotation.w >= 1f)
         {
             currentActiveMouse.transform.position = playerCamera.transform.position + playerCamera.transform.forward * mouseDistance;
+            currentActiveMouse.transform.rotation = new Quaternion(0, 1,0,0);
         }
         else if (playerCamera.transform.rotation.y >= 1f)
         {
             currentActiveMouse.transform.position = playerCamera.transform.position + playerCamera.transform.forward * mouseDistance;
+            currentActiveMouse.transform.rotation = new Quaternion(0, 0,0,1);
         }
     }
 
