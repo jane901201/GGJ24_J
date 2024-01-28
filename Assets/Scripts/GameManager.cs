@@ -41,12 +41,10 @@ public class GameManager : MonoBehaviour
     private GameObject currentActiveMouse;
     private float currentHaveTime = 0f;
 
-    public Animator victoryAnimator;
+    public GameObject victoryAnimator;
     public float victoryWaitTime = 10f;
-    public string victoryTrigger = "Victory";
-    public Animator gameOverAnimator;
+    public GameObject gameOverAnimator;
     public float gameOverWaitTime = 10f;
-    public string gameOverTrigger = "GameOver";
 
 
 
@@ -298,7 +296,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator VictoryCoroutine()
     {
-        victoryAnimator.SetTrigger(victoryTrigger);
+        victoryAnimator.SetActive(true);
         yield return new WaitForSeconds(victoryWaitTime);
         Debug.Log("VictoryAnimComplete");
         SceneManager.LoadScene("StartMenuScene");
@@ -311,7 +309,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GameOverCoroutine()
     {
-        gameOverAnimator.SetTrigger(gameOverTrigger);
+        gameOverAnimator.SetActive(true);
         yield return new WaitForSeconds(gameOverWaitTime);
         Debug.Log("GameOver");
         SceneManager.LoadScene("StartMenuScene");
