@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     public bool IsPuzzling => _isPuzzling;
 
     public UIManager uiManager;
-    public GameData gameData;
     public List<PuzzleData> puzzleDatas;
     public int currentCorrectNum = 0;
     public int currentFalseNum = 0;
@@ -27,7 +26,8 @@ public class GameManager : MonoBehaviour
     public float mouseDistance = 900f;
     
     public GameObject playerCamera;
-    public GameObject mouse;
+    public GameObject redMickey;
+    public GameObject blueMickey;
     private Coroutine countdownCoroutine; // 保存 Coroutine 的引用
 
     
@@ -206,11 +206,15 @@ public class GameManager : MonoBehaviour
     public void MouseColorChange()
     {
         //TODO:要問一下美術怎麼換色(直接生不同色的 Prefab?)
+
+        int randomValue = Random.Range(0, 2);
+
+
     }
 
     public void MouseCreate()
     {
-        currentActiveMouse = Instantiate(mouse);
+        currentActiveMouse = Instantiate(redMickey);
         Debug.Log("Player Camera Rotation Y: " + playerCamera.transform.rotation);
         if (playerCamera.transform.rotation.w >= 1f)
         {

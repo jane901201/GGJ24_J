@@ -9,7 +9,6 @@ public class StartMenuUI : MonoBehaviour
         SceneManager.LoadScene("GameScene");
     }
     
-    
     public void ExitGame()
     {
         // 在遊戲中呼叫 Application.Quit() 退出遊戲

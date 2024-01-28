@@ -110,7 +110,7 @@ public class UIManager : MonoBehaviour
         OnHideUiPanel?.Invoke(true);
         PuzzleManager.Instance.IsPuzzleHide = false;
         GameManager.Instance.StartCountdown();
-        if (GameManager.Instance.mouse != null)
+        if (GameManager.Instance.redMickey != null)
         {
             GameManager.Instance.MouseMove();
         }
