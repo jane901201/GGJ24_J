@@ -26,27 +26,38 @@ public class AnimationEventsOnInspector : MonoBehaviour
         PuzzleManager.Instance.OnAnimationStart?.Invoke(true);
         completeTcs = new UniTaskCompletionSource();
         await WaitAnimationPlayOver(allAnimation.animationEventData[uid].previousAnimationTime);
+        Debug.Log("PlayAnimation await");
         await allAnimation.PlayAnimation(uid, completeTcs);
+        Debug.Log("PlayAnimation done");
+
         PuzzleManager.Instance.OnAnimationEnd?.Invoke(false);
     }
 
     public async void SetIsSccuess(bool isValid)
     {
-        if (completeTcs != null)
-        {
-            await completeTcs.Task;
-        }
+        //if (completeTcs != null)
+        //{
+        //    Debug.Log("SetIsSccuess await");
+        //    await completeTcs.Task;
+        //    Debug.Log("SetIsSccuess done");
+
+        //}
         await UniTask.Delay(1000);
 
+        Debug.Log(" <color=green>SetPuzzleResult</color> ");
         PuzzleManager.Instance.SetPuzzleResult(isValid);
     }
     private async UniTask WaitAnimationPlayOver(int animationTime)
     {
         if (animationTcs != null)
         {
+            Debug.Log("WaitAnimationPlayOver await");
+
             animationTcs = new UniTaskCompletionSource();
             await UniTask.Delay(animationTime * 1000);
             animationTcs.TrySetResult();
+            Debug.Log("WaitAnimationPlayOver done");
+
         }
     }
 
@@ -61,6 +72,8 @@ public class AnimationEventsOnInspector : MonoBehaviour
     /// <param name="colorNum"></param>
     public async void ReturnColor(int colorNum)
     {
+        Debug.Log("ReturnColor done");
+
         await UniTask.DelayFrame(ReturnColorWaitTime * 1000);
         if ((int)MouseColor.Red == colorNum)
         {
@@ -70,7 +83,9 @@ public class AnimationEventsOnInspector : MonoBehaviour
         {
             GameManager.Instance.puzzleReturnColor = MouseColor.Blue;
         }
-        SetIsSccuess(true);
+        var checkResult = (int)GameManager.Instance.roomMousecolor == colorNum;
+        SetIsSccuess(checkResult);
+        GameManager.Instance.VictoryCheck();
     }
 }
 
@@ -84,13 +99,24 @@ public class AllAnimation
     {
         animationEventData[uid].animator.SetTrigger($"{animationEventData[uid].animationName}");
 
-        await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
+        //await UniTask.Yield(PlayerLoopTiming.PostLateUpdate);
 
-        if (!animationEventData[uid].animator.GetCurrentAnimatorStateInfo(0).IsName(animationEventData[uid].animationName))
-        {
-            tcs.TrySetResult();
-        }
-        await tcs.Task;
+        //if (!animationEventData[uid].animator.GetCurrentAnimatorStateInfo(0).IsName(animationEventData[uid].animationName))
+        //{
+        //    Debug.Log("<color=red>OK</color>");
+
+        //    tcs.TrySetResult();
+        //}
+        //else
+        //{
+        //    Debug.Log("<color=red>No ok</color>");
+        //    tcs.TrySetResult();
+        //}
+        //tcs.TrySetResult();
+
+        //await tcs.Task;
+        Debug.Log("<color=red>PlayAnimation done</color>");
+
     }
 }
 
