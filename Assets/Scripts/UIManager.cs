@@ -105,6 +105,12 @@ public class UIManager : MonoBehaviour
         hidePanelButton.SetVisible(true);
         MoveUIPanel(true);
         OnHideUiPanel?.Invoke(true);
+        PuzzleManager.Instance.IsPuzzleHide = false;
+        if (GameManager.Instance.mouse != null)
+        {
+            GameManager.Instance.MouseMove();
+        }
+
     }
 
     public void AddToBag(Item item)
