@@ -106,8 +106,7 @@ public class GameManager : MonoBehaviour
                 playerCamera.transform.DOKill();
 
                 await WaitUI(true);
-           
-                Destroy(currentActiveMouse);
+
             }
         }
     }
@@ -125,6 +124,7 @@ public class GameManager : MonoBehaviour
         if (wait6s)
         {
             await UniTask.Delay(6000);
+            Destroy(currentActiveMouse);
             Move();
         }
         Debug.Log("<color=red>Destory</color>");
