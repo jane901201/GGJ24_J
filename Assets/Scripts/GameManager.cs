@@ -143,11 +143,11 @@ public class GameManager : MonoBehaviour
             .SetEase(Ease.Linear) // 設定旋轉的緩動曲線
             .OnComplete(() => Debug.Log("旋轉完成")); // 在旋轉完成時執行的回調
 
-        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis, fleeDuration)
+        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis * 2, fleeDuration)
             .SetEase(Ease.InOutQuad)
             .OnComplete(() => Debug.Log("兩倍移動完成")); // 使用 Quad 曲線實現變速效果
 
-        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis * 2, normalDuration)
+        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis * 3, normalDuration)
             .SetEase(Ease.Linear)
             .OnUpdate(() =>
             {
