@@ -200,14 +200,14 @@ public class GameManager : MonoBehaviour
         if (roomMousecolor == puzzleReturnColor)
         {
             currentHaveTime = mouseMoveDuration;
-            currentCorrectNum++;
+            //currentCorrectNum++;
             PlayerMove(true);
         }
         else if (roomMousecolor != puzzleReturnColor)
         {
             currentHaveTime = mouseMoveDuration;
-            currentCorrectNum = 0;
-            currentFalseNum++;
+            //urrentCorrectNum = 0;
+            //currentFalseNum++;
             PlayerMove(false);
         }
     }
