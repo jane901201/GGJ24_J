@@ -77,6 +77,7 @@ public class UIManager : MonoBehaviour
     bool isFirst = true;
     private void DoOnPuzzple()
     {
+        //await GameManager.Instance.WaitUI();
         if (isFirst)
         {
             bag.ResetBag();
@@ -156,7 +157,6 @@ public class UIManager : MonoBehaviour
         {
             if (!isValid && hideTcs != null)
             {
-
                 hideTcs.TrySetResult();
             }
         });
