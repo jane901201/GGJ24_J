@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -73,8 +74,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayerMove(bool isSucceed)
+    public async void PlayerMove(bool isSucceed)
     {
+        await WaitUI();
         RoomManager.isSolvingPuzzle = false;
         if (isSucceed)
             PlayerForwordMove();
@@ -84,19 +86,38 @@ public class GameManager : MonoBehaviour
 
     private async void CheckMouseAndCamDistance()
     {
+        //Debug.Log("<color=red>CheckMouseAndCamDistance</color>");
+
         if (currentActiveMouse != null)
         {
             var sss = Mathf.Abs(currentActiveMouse.transform.position.magnitude - playerCamera.transform.position.magnitude);
             //Debug.Log($"CheckMouseAndCamDistance {sss}");
             if (sss <= 30)
             {
-                //Debug.Log("Destory");
-
                 currentActiveMouse.transform.position = playerCamera.transform.forward + new Vector3(0, 0, playerCamera.transform.position.z + OffSetPosition);
-                await UniTask.Delay(3000);
+                playerCamera.transform.DOKill();
+
+                await WaitUI();
+                PlayerMove(true);
                 Destroy(currentActiveMouse);
             }
         }
+    }
+
+    private static async UniTask WaitUI()
+    {
+        if (UIManager.Instance.hideTcs != null)
+        {
+            Debug.Log("<color=red>Wait</color>");
+
+            await UIManager.Instance.hideTcs.Task;
+            Debug.Log("<color=red>Wait done</color>");
+
+        }
+        Debug.Log("<color=red>Destory</color>");
+        Debug.Log("<color=red>Wait done ?????</color>");
+
+        await UniTask.Delay(6000);
     }
 
     public void PlayerForwordMove()
@@ -270,12 +291,19 @@ public class GameManager : MonoBehaviour
             .SetEase(Ease.Linear)
             .OnUpdate(() =>
             {
-                if (PuzzleManager.Instance.OnMouseStop == null)
-                {
-                    Debug.Log("<color=red> add event</color>");
+                CheckMouseAndCamDistance();
+                //if (PuzzleManager.Instance.IsSuccess)
+                //{
+                //    Debug.Log("<color=red> add event</color>");
 
-                    PuzzleManager.Instance.OnMouseStop += () => { Debug.Log("<color=red>Stop mouse</color>"); currentActiveMouse.transform.DOKill(); };
-                }
+                //    Debug.Log("<color=red>Stop mouse</color>");
+
+                //    if (currentActiveMouse != null)
+                //    {
+                //        currentActiveMouse.transform.DOKill();
+                //    }
+                //    return;
+                //}
                 // 在 Tween 更新時檢查條件
                 if (PuzzleManager.Instance.IsPuzzleHide)
                 {
@@ -283,7 +311,6 @@ public class GameManager : MonoBehaviour
                     currentActiveMouse.transform.DOKill();
                     Debug.Log("Tween 已停止");
                 }
-                CheckMouseAndCamDistance();
             })
             .OnComplete(() => Debug.Log("移動完成"));
     }
