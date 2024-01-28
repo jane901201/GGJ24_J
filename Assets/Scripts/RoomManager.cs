@@ -54,7 +54,7 @@ public class RoomManager : MonoBehaviour
     {
         if (gameObject.name == "CreateRoomCheckPoint")
         {
-            CreateRoom();
+            //CreateRoom();
         }
         else if (gameObject.name == "EventCheckPoint")
         {
@@ -94,14 +94,14 @@ public class RoomManager : MonoBehaviour
         tempRoom.transform.parent = transform;
         tempRoom.transform.position = new Vector3(0, 0, 0);
         rooms.AddFirst(tempRoom.GetComponent<Room>());
-        for (int i = 0; i < createRoomNum; i++)
+        for (int i = 0; i < 100; i++)
         {
             tempRoom = Instantiate(room);
             tempRoom.transform.parent = transform;
             tempRoom.transform.position = new Vector3(0, 0, (i + 1) * createRoomRange);
             rooms.AddFirst(tempRoom.GetComponent<Room>());
         }
-        for (int i = 0; i > -createRoomNum; i--)
+        for (int i = 0; i > -100; i--)
         {
             tempRoom = Instantiate(room);
             tempRoom.transform.parent = transform;
