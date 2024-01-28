@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -17,6 +18,9 @@ public class UIManager : MonoBehaviour
     public Action<ItemSlot> OnCurrentItemClick;
     public Action<Item> OnCurrentGoatItemClick;
     public Action<bool> OnHideUiPanel;
+
+
+    public UniTaskCompletionSource hideTcs;
 
     public ItemSlot CurrentSelectItem => currentSelectOnBagItem;
     public Item CurrentSelectGoatItem => currentSelectGoatItem;
@@ -144,7 +148,18 @@ public class UIManager : MonoBehaviour
 
     private void MoveUIPanel(bool isValid)
     {
-        uiPanel.DOMoveY(isValid ? +540 : -1200 + 540, 0.5f).SetEase(Ease.OutQuad);
+        if (isValid)
+        {
+            hideTcs = new UniTaskCompletionSource();
+        }
+        uiPanel.DOMoveY(isValid ? +540 : -1200 + 540, 0.5f).SetEase(Ease.OutQuad).OnComplete(() =>
+        {
+            if (!isValid && hideTcs != null)
+            {
+
+                hideTcs.TrySetResult();
+            }
+        });
     }
 
     public void EnableNewItem(string itemName)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -41,12 +42,10 @@ public class GameManager : MonoBehaviour
     private GameObject currentActiveMouse;
     private float currentHaveTime = 0f;
 
-    public Animator victoryAnimator;
+    public GameObject victoryAnimator;
     public float victoryWaitTime = 10f;
-    public string victoryTrigger = "Victory";
-    public Animator gameOverAnimator;
+    public GameObject gameOverAnimator;
     public float gameOverWaitTime = 10f;
-    public string gameOverTrigger = "GameOver";
 
 
 
@@ -75,8 +74,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayerMove(bool isSucceed)
+    public async void PlayerMove(bool isSucceed)
     {
+        await WaitUI();
         RoomManager.isSolvingPuzzle = false;
         if (isSucceed)
             PlayerForwordMove();
@@ -86,19 +86,38 @@ public class GameManager : MonoBehaviour
 
     private async void CheckMouseAndCamDistance()
     {
+        //Debug.Log("<color=red>CheckMouseAndCamDistance</color>");
+
         if (currentActiveMouse != null)
         {
             var sss = Mathf.Abs(currentActiveMouse.transform.position.magnitude - playerCamera.transform.position.magnitude);
             //Debug.Log($"CheckMouseAndCamDistance {sss}");
             if (sss <= 30)
             {
-                //Debug.Log("Destory");
-
                 currentActiveMouse.transform.position = playerCamera.transform.forward + new Vector3(0, 0, playerCamera.transform.position.z + OffSetPosition);
-                await UniTask.Delay(3000);
+                playerCamera.transform.DOKill();
+
+                await WaitUI();
+                PlayerMove(true);
                 Destroy(currentActiveMouse);
             }
         }
+    }
+
+    private static async UniTask WaitUI()
+    {
+        if (UIManager.Instance.hideTcs != null)
+        {
+            Debug.Log("<color=red>Wait</color>");
+
+            await UIManager.Instance.hideTcs.Task;
+            Debug.Log("<color=red>Wait done</color>");
+
+        }
+        Debug.Log("<color=red>Destory</color>");
+        Debug.Log("<color=red>Wait done ?????</color>");
+
+        await UniTask.Delay(6000);
     }
 
     public void PlayerForwordMove()
@@ -143,11 +162,11 @@ public class GameManager : MonoBehaviour
             .SetEase(Ease.Linear) // 設定旋轉的緩動曲線
             .OnComplete(() => Debug.Log("旋轉完成")); // 在旋轉完成時執行的回調
 
-        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis, fleeDuration)
+        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis * 2, fleeDuration)
             .SetEase(Ease.InOutQuad)
             .OnComplete(() => Debug.Log("兩倍移動完成")); // 使用 Quad 曲線實現變速效果
 
-        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis * 2, normalDuration)
+        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis * 3, normalDuration)
             .SetEase(Ease.Linear)
             .OnUpdate(() =>
             {
@@ -169,7 +188,6 @@ public class GameManager : MonoBehaviour
             currentHaveTime = mouseMoveDuration;
             currentCorrectNum++;
             PlayerMove(true);
-            MouseColorChange();
         }
         else if (roomMousecolor != puzzleReturnColor)
         {
@@ -177,7 +195,6 @@ public class GameManager : MonoBehaviour
             currentCorrectNum = 0;
             currentFalseNum++;
             PlayerMove(false);
-            MouseColorChange();
         }
         else if (currentHaveTime <= 0f)
         {
@@ -185,7 +202,6 @@ public class GameManager : MonoBehaviour
             currentCorrectNum = 0;
             currentFalseNum++;
             PlayerMove(false);
-            MouseColorChange();
         }
 
         if (currentCorrectNum >= 3)
@@ -226,27 +242,32 @@ public class GameManager : MonoBehaviour
             OnTimerEnd?.Invoke();
         }
     }
-
-    public void MouseColorChange()
-    {
-        //TODO:要問一下美術怎麼換色(直接生不同色的 Prefab?)
-
-        int randomValue = Random.Range(0, 2);
-        
-    }
-
+    
     public void MouseCreate()
     {
-//<<<<<<< HEAD
-        currentActiveMouse = Instantiate(redMickey);
-//=======
-        //var tempMouse = Instantiate(mouse);
+        // 0 = red, 1 = blue
+        int randomValue = Random.Range(0, 2);
+
+        GameObject selectedColorMouse;
+
+        if (randomValue == 0)
+        {
+            selectedColorMouse = redMickey;
+            Debug.Log("生成紅色");
+        }
+        else
+        {
+            selectedColorMouse = blueMickey;
+            Debug.Log("生成藍色");
+        }
+
+        var tempMouse = Instantiate(selectedColorMouse);
+
         if (currentActiveMouse != null)
         {
             Destroy(currentActiveMouse.gameObject);
         }
-        //currentActiveMouse = tempMouse;
-//>>>>>>> GGJ24_J/master
+        currentActiveMouse = tempMouse;
         Debug.Log("Player Camera Rotation Y: " + playerCamera.transform.rotation);
         if (playerCamera.transform.rotation.w >= 1f)
         {
@@ -270,12 +291,19 @@ public class GameManager : MonoBehaviour
             .SetEase(Ease.Linear)
             .OnUpdate(() =>
             {
-                if (PuzzleManager.Instance.OnMouseStop == null)
-                {
-                    Debug.Log("<color=red> add event</color>");
+                CheckMouseAndCamDistance();
+                //if (PuzzleManager.Instance.IsSuccess)
+                //{
+                //    Debug.Log("<color=red> add event</color>");
 
-                    PuzzleManager.Instance.OnMouseStop += () => { Debug.Log("<color=red>Stop mouse</color>"); currentActiveMouse.transform.DOKill(); };
-                }
+                //    Debug.Log("<color=red>Stop mouse</color>");
+
+                //    if (currentActiveMouse != null)
+                //    {
+                //        currentActiveMouse.transform.DOKill();
+                //    }
+                //    return;
+                //}
                 // 在 Tween 更新時檢查條件
                 if (PuzzleManager.Instance.IsPuzzleHide)
                 {
@@ -283,7 +311,6 @@ public class GameManager : MonoBehaviour
                     currentActiveMouse.transform.DOKill();
                     Debug.Log("Tween 已停止");
                 }
-                CheckMouseAndCamDistance();
             })
             .OnComplete(() => Debug.Log("移動完成"));
     }
@@ -296,7 +323,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator VictoryCoroutine()
     {
-        victoryAnimator.SetTrigger(victoryTrigger);
+        victoryAnimator.SetActive(true);
         yield return new WaitForSeconds(victoryWaitTime);
         Debug.Log("VictoryAnimComplete");
         SceneManager.LoadScene("StartMenuScene");
@@ -309,7 +336,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GameOverCoroutine()
     {
-        gameOverAnimator.SetTrigger(gameOverTrigger);
+        gameOverAnimator.SetActive(true);
         yield return new WaitForSeconds(gameOverWaitTime);
         Debug.Log("GameOver");
         SceneManager.LoadScene("StartMenuScene");
