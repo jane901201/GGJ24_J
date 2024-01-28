@@ -42,7 +42,7 @@ public class AnimationEventsOnInspector : MonoBehaviour
         //    Debug.Log("SetIsSccuess done");
 
         //}
-        await UniTask.Delay(1000);
+        await UniTask.Delay(ReturnColorWaitTime * 1000);
 
         Debug.Log(" <color=green>SetPuzzleResult</color> ");
         PuzzleManager.Instance.SetPuzzleResult(isValid);
@@ -72,9 +72,10 @@ public class AnimationEventsOnInspector : MonoBehaviour
     /// <param name="colorNum"></param>
     public async void ReturnColor(int colorNum)
     {
+        Debug.Log("ReturnColor await");
+
         Debug.Log("ReturnColor done");
 
-        await UniTask.DelayFrame(ReturnColorWaitTime * 1000);
         if ((int)MouseColor.Red == colorNum)
         {
             GameManager.Instance.puzzleReturnColor = MouseColor.Red;
@@ -84,6 +85,7 @@ public class AnimationEventsOnInspector : MonoBehaviour
             GameManager.Instance.puzzleReturnColor = MouseColor.Blue;
         }
         var checkResult = (int)GameManager.Instance.roomMousecolor == colorNum;
+        await UniTask.DelayFrame(ReturnColorWaitTime * 1000);
         SetIsSccuess(checkResult);
         GameManager.Instance.VictoryCheck();
     }

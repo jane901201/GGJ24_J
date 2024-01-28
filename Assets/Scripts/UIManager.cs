@@ -58,6 +58,7 @@ public class UIManager : MonoBehaviour
 
     private void SetInteracbleClickOnShowButton(bool isValid)
     {
+        Debug.Log("SetInteracbleClickOnShowButton");
         hidePanelButton.SetInteracble(!isValid);
     }
 
@@ -84,6 +85,7 @@ public class UIManager : MonoBehaviour
                 puzzleDatas[i].gameObject.SetActive(false);
             }
             bag.ResetBag();
+            puzzleDatas[random].ResetData();
             puzzleDatas[random].gameObject.SetActive(true);
 
         }
