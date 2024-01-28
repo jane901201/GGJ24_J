@@ -97,14 +97,14 @@ public class GameManager : MonoBehaviour
                 currentActiveMouse.transform.position = playerCamera.transform.forward + new Vector3(0, 0, playerCamera.transform.position.z + OffSetPosition);
                 playerCamera.transform.DOKill();
 
-                await WaitUI();
-                PlayerMove(true);
+                await WaitUI(true);
+           
                 Destroy(currentActiveMouse);
             }
         }
     }
 
-    private static async UniTask WaitUI()
+    public async UniTask WaitUI(bool wait6s = false)
     {
         if (UIManager.Instance.hideTcs != null)
         {
@@ -114,10 +114,14 @@ public class GameManager : MonoBehaviour
             Debug.Log("<color=red>Wait done</color>");
 
         }
+        if (wait6s)
+        {
+            await UniTask.Delay(6000);
+            Move();
+        }
         Debug.Log("<color=red>Destory</color>");
         Debug.Log("<color=red>Wait done ?????</color>");
 
-        await UniTask.Delay(6000);
     }
 
     public void PlayerForwordMove()
@@ -181,6 +185,23 @@ public class GameManager : MonoBehaviour
             .OnComplete(() => Debug.Log("移動完成"));
     }
 
+    private void Move()
+    {
+        if (roomMousecolor == puzzleReturnColor)
+        {
+            currentHaveTime = mouseMoveDuration;
+            currentCorrectNum++;
+            PlayerMove(true);
+        }
+        else if (roomMousecolor != puzzleReturnColor)
+        {
+            currentHaveTime = mouseMoveDuration;
+            currentCorrectNum = 0;
+            currentFalseNum++;
+            PlayerMove(false);
+        }
+    }
+
     public void VictoryCheck()
     {
         if (roomMousecolor == puzzleReturnColor)
@@ -242,7 +263,7 @@ public class GameManager : MonoBehaviour
             OnTimerEnd?.Invoke();
         }
     }
-    
+
     public void MouseCreate()
     {
         // 0 = red, 1 = blue
