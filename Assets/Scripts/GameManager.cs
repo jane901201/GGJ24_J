@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
             var animator = currentActiveMouse.GetComponent<Animator>();
             animator.SetTrigger("Run");
             await UniTask.Delay(3000);
-            Destroy(currentActiveMouse);
+            //Destroy(currentActiveMouse);
             Move();
         }
         Debug.Log("<color=red>Destory</color>");
@@ -371,6 +371,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GameOverCoroutine()
     {
+        gameOverAnimator = GameManager.Instance.currentActiveMouse;
         gameOverAnimator.SetActive(true);
         yield return new WaitForSeconds(gameOverWaitTime);
         Debug.Log("GameOver");
