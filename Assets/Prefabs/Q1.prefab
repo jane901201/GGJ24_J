@@ -613,7 +613,7 @@ GameObject:
   - component: {fileID: 6722711629322887867}
   - component: {fileID: 498749662649428735}
   m_Layer: 5
-  m_Name: Btn_Mickey
+  m_Name: Btn_Mickey_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
