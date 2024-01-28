@@ -157,7 +157,6 @@ public class UIManager : MonoBehaviour
         {
             if (!isValid && hideTcs != null)
             {
-
                 hideTcs.TrySetResult();
             }
         });

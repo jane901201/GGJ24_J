@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
             //Debug.Log($"CheckMouseAndCamDistance {sss}");
             if (sss <= 30)
             {
-                currentActiveMouse.transform.position = playerCamera.transform.forward + new Vector3(0, 0, playerCamera.transform.position.z + OffSetPosition);
+                currentActiveMouse.transform.position = playerCamera.transform.forward + new Vector3(0, 0, playerCamera.transform.position.z>=0? playerCamera.transform.position.z + OffSetPosition : playerCamera.transform.position.z - OffSetPosition);
                 playerCamera.transform.DOKill();
 
                 await WaitUI(true);
