@@ -54,6 +54,8 @@ public class UIManager : MonoBehaviour
         PuzzleManager.Instance.OnSuccessResult += DoEndPuzzle;
         PuzzleManager.Instance.OnAnimationStart += SetInteracbleClickOnShowButton;
         PuzzleManager.Instance.OnAnimationEnd += SetInteracbleClickOnShowButton;
+
+        GameManager.Instance.OnTimerEnd += () => { MoveUIPanel(false); };
     }
 
     private void SetInteracbleClickOnShowButton(bool isValid)
