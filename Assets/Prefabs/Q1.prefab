@@ -292,8 +292,7 @@ MonoBehaviour:
     image: {fileID: 2868202882938569174}
     triggerEvents: []
   - name: Mickey_Red
-    triggerItem:
-    - 112
+    triggerItem: []
     image: {fileID: 0}
     triggerEvents: []
   otherSecretItems: []

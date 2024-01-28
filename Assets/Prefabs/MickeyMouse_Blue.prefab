@@ -1461,7 +1461,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7a7b6eabd26f2714db7f63bb21f1fbfc, type: 2}
+  - {fileID: 2100000, guid: e612d042bf9df3e42a32e6d2d927237f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2202,7 +2202,7 @@ GameObject:
   - component: {fileID: -6595912319919613588}
   - component: {fileID: 7336441500719711166}
   m_Layer: 0
-  m_Name: MickeyMouse
+  m_Name: MickeyMouse_Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
