@@ -64,22 +64,6 @@ public class PuzzleData : MonoBehaviour
             });
         }
     }
-
-    /// <summary>
-    /// 紅0藍1
-    /// </summary>
-    /// <param name="colorNum"></param>
-    public void ReturnColor(int colorNum)
-    {
-        if ((int)MouseColor.Red == colorNum)
-        {
-            GameManager.Instance.puzzleReturnColor = MouseColor.Red;
-        }
-        else
-        {
-            GameManager.Instance.puzzleReturnColor = MouseColor.Blue;
-        }
-    }
 }
 
 

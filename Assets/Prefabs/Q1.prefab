@@ -216,6 +216,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerColor: 0
+  notScretButtons:
+  - {fileID: 5417271920575275769}
+  - {fileID: 5417271921326725832}
+  - {fileID: 5417271920822157020}
+  - {fileID: 6722711629322887867}
+  scretButtons: []
   items:
   - name: MusicScore_111
     triggerItem:
@@ -290,6 +296,7 @@ MonoBehaviour:
     - 112
     image: {fileID: 0}
     triggerEvents: []
+  otherSecretItems: []
 --- !u!114 &5417271920693211903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,15 +314,12 @@ MonoBehaviour:
     - animator: {fileID: 4879220230480995319}
       previousAnimationTime: 0
       animationName: EatMusicScore
-      button: {fileID: 5417271921326725832}
     - animator: {fileID: 4879220230480995319}
       previousAnimationTime: 0
       animationName: EatGuitar
-      button: {fileID: 5417271921326725832}
     - animator: {fileID: 6088950433560564183}
       previousAnimationTime: 1
       animationName: Laugh
-      button: {fileID: 6722711629322887867}
 --- !u!1 &5417271920822157022
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +613,7 @@ GameObject:
   - component: {fileID: 6722711629322887867}
   - component: {fileID: 498749662649428735}
   m_Layer: 5
-  m_Name: Btn_Mickey
+  m_Name: Btn_Mickey_Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -12,6 +12,7 @@ public class AnimationEventWithParameters : UnityEvent<Item> { }
 public class AnimationEventsOnInspector : MonoBehaviour
 {
     public AllAnimation allAnimation;
+    public int ReturnColorWaitTime;
 
     UniTaskCompletionSource animationTcs, completeTcs;
 
@@ -52,6 +53,24 @@ public class AnimationEventsOnInspector : MonoBehaviour
     public void AddItem(string itemName)
     {
         UIManager.Instance.EnableNewItem(itemName);
+    }
+
+    /// <summary>
+    /// 紅0藍1
+    /// </summary>
+    /// <param name="colorNum"></param>
+    public async void ReturnColor(int colorNum)
+    {
+        await UniTask.DelayFrame(ReturnColorWaitTime * 1000);
+        if ((int)MouseColor.Red == colorNum)
+        {
+            GameManager.Instance.puzzleReturnColor = MouseColor.Red;
+        }
+        else
+        {
+            GameManager.Instance.puzzleReturnColor = MouseColor.Blue;
+        }
+        SetIsSccuess(true);
     }
 }
 
