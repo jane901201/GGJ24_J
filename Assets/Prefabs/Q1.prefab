@@ -319,7 +319,7 @@ MonoBehaviour:
     - animator: {fileID: 6088950433560564183}
       previousAnimationTime: 1
       animationName: Laugh
-  ReturnColorWaitTime: 2
+  ReturnColorWaitTime: 1
 --- !u!1 &5417271920822157022
 GameObject:
   m_ObjectHideFlags: 0

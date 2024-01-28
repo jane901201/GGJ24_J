@@ -398,7 +398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allAnimation:
     animationEventData: []
-  ReturnColorWaitTime: 4
+  ReturnColorWaitTime: 1
 --- !u!1 &5417271920822157022
 GameObject:
   m_ObjectHideFlags: 0

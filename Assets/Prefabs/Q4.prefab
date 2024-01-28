@@ -488,7 +488,7 @@ MonoBehaviour:
     - animator: {fileID: 4360651290928611986}
       previousAnimationTime: 0
       animationName: KingKong
-  ReturnColorWaitTime: 3
+  ReturnColorWaitTime: 1
 --- !u!1 &5417271920822157022
 GameObject:
   m_ObjectHideFlags: 0
