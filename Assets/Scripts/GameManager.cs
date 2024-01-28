@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// 管整個遊戲流程
@@ -12,6 +15,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public bool IsPuzzling => _isPuzzling;
+
+    public Action OnTimerEnd;
+    public float OffSetPosition;
 
     public UIManager uiManager;
     public List<PuzzleData> puzzleDatas;
@@ -24,13 +30,13 @@ public class GameManager : MonoBehaviour
     public float fleeDuration = 3f;
     [FormerlySerializedAs("seconds")] public float mouseMoveDuration = 60f;
     public float mouseDistance = 900f;
-    
+
     public GameObject playerCamera;
     public GameObject redMickey;
     public GameObject blueMickey;
     private Coroutine countdownCoroutine; // 保存 Coroutine 的引用
 
-    
+
     bool _isPuzzling;
     private GameObject currentActiveMouse;
     private float currentHaveTime = 0f;
@@ -60,7 +66,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerForwordMove();
     }
-    
+
     private void Update()
     {
         if (!_isPuzzling)
@@ -78,11 +84,28 @@ public class GameManager : MonoBehaviour
             PlayerFleeMove();
     }
 
+    private async void CheckMouseAndCamDistance()
+    {
+        if (currentActiveMouse != null)
+        {
+            var sss = Mathf.Abs(currentActiveMouse.transform.position.magnitude - playerCamera.transform.position.magnitude);
+            Debug.Log($"CheckMouseAndCamDistance {sss}");
+            if (sss <= 30)
+            {
+                Debug.Log("Destory");
+
+                currentActiveMouse.transform.position = playerCamera.transform.forward + new Vector3(0, 0, playerCamera.transform.position.z + OffSetPosition);
+                await UniTask.Delay(3000);
+                Destroy(currentActiveMouse);
+            }
+        }
+    }
+
     public void PlayerForwordMove()
     {
         Vector3 moveDir;
         //TODO:playerCamera.transform.rotation.w >= 1f?
-        if(playerCamera.transform.rotation.y == 0)
+        if (playerCamera.transform.rotation.y == 0)
             moveDir = Vector3.forward;
         else
             moveDir = Vector3.back;
@@ -123,8 +146,8 @@ public class GameManager : MonoBehaviour
         playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis, fleeDuration)
             .SetEase(Ease.InOutQuad)
             .OnComplete(() => Debug.Log("兩倍移動完成")); // 使用 Quad 曲線實現變速效果
-        
-        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis*2, normalDuration)
+
+        playerCamera.transform.DOMove(playerCamera.transform.position + moveDir * playerMoveDis * 2, normalDuration)
             .SetEase(Ease.Linear)
             .OnUpdate(() =>
             {
@@ -148,7 +171,7 @@ public class GameManager : MonoBehaviour
             PlayerMove(true);
             MouseColorChange();
         }
-        else if(roomMousecolor != puzzleReturnColor)
+        else if (roomMousecolor != puzzleReturnColor)
         {
             currentHaveTime = mouseMoveDuration;
             currentCorrectNum = 0;
@@ -171,10 +194,10 @@ public class GameManager : MonoBehaviour
         }
         else if (currentFalseNum >= 3)
         {
-            GameOver();            
+            GameOver();
         }
     }
-    
+
     public void StartCountdown()
     {
         countdownCoroutine = StartCoroutine(CountDown());
@@ -192,7 +215,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("倒數計時結束");
     }
-    
+
     public void StopCountdown()
     {
         // 在特定條件下停止 Coroutine
@@ -200,27 +223,36 @@ public class GameManager : MonoBehaviour
         {
             StopCoroutine(countdownCoroutine);
             Debug.Log("倒數計時被手動停止");
+            OnTimerEnd?.Invoke();
         }
     }
-    
+
     public void MouseColorChange()
     {
         //TODO:要問一下美術怎麼換色(直接生不同色的 Prefab?)
 
         int randomValue = Random.Range(0, 2);
-
-
+        
     }
 
     public void MouseCreate()
     {
+//<<<<<<< HEAD
         currentActiveMouse = Instantiate(redMickey);
+//=======
+        //var tempMouse = Instantiate(mouse);
+        if (currentActiveMouse != null)
+        {
+            Destroy(currentActiveMouse.gameObject);
+        }
+        //currentActiveMouse = tempMouse;
+//>>>>>>> GGJ24_J/master
         Debug.Log("Player Camera Rotation Y: " + playerCamera.transform.rotation);
         if (playerCamera.transform.rotation.w >= 1f)
         {
             currentActiveMouse.transform.position = playerCamera.transform.position + playerCamera.transform.forward * mouseDistance;
         }
-        else if(playerCamera.transform.rotation.y >= 1f)
+        else if (playerCamera.transform.rotation.y >= 1f)
         {
             currentActiveMouse.transform.position = playerCamera.transform.position + playerCamera.transform.forward * mouseDistance;
         }
@@ -229,11 +261,11 @@ public class GameManager : MonoBehaviour
     public void MouseMove()
     {
         Vector3 moveDir;
-        if(playerCamera.transform.rotation.y == 0)
+        if (playerCamera.transform.rotation.y == 0)
             moveDir = Vector3.back;
         else
             moveDir = Vector3.forward;
-        
+
         currentActiveMouse.transform.DOMove(currentActiveMouse.transform.position + moveDir * mouseDistance, mouseMoveDuration)
             .SetEase(Ease.Linear)
             .OnUpdate(() =>
@@ -245,10 +277,11 @@ public class GameManager : MonoBehaviour
                     currentActiveMouse.transform.DOKill();
                     Debug.Log("Tween 已停止");
                 }
+                CheckMouseAndCamDistance();
             })
             .OnComplete(() => Debug.Log("移動完成"));
     }
-    
+
     public void Victory()
     {
         //勝利動畫
