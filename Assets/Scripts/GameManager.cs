@@ -169,7 +169,6 @@ public class GameManager : MonoBehaviour
             currentHaveTime = mouseMoveDuration;
             currentCorrectNum++;
             PlayerMove(true);
-            MouseColorChange();
         }
         else if (roomMousecolor != puzzleReturnColor)
         {
@@ -177,7 +176,6 @@ public class GameManager : MonoBehaviour
             currentCorrectNum = 0;
             currentFalseNum++;
             PlayerMove(false);
-            MouseColorChange();
         }
         else if (currentHaveTime <= 0f)
         {
@@ -185,7 +183,6 @@ public class GameManager : MonoBehaviour
             currentCorrectNum = 0;
             currentFalseNum++;
             PlayerMove(false);
-            MouseColorChange();
         }
 
         if (currentCorrectNum >= 3)
@@ -226,18 +223,26 @@ public class GameManager : MonoBehaviour
             OnTimerEnd?.Invoke();
         }
     }
-
-    public void MouseColorChange()
-    {
-        //TODO:要問一下美術怎麼換色(直接生不同色的 Prefab?)
-
-        int randomValue = Random.Range(0, 2);
-
-    }
-
+    
     public void MouseCreate()
     {
-        var tempMouse = Instantiate(redMickey);
+        // 0 = red, 1 = blue
+        int randomValue = Random.Range(0, 2);
+
+        GameObject selectedColorMouse;
+
+        if (randomValue == 0)
+        {
+            selectedColorMouse = redMickey;
+            Debug.Log("生成紅色");
+        }
+        else
+        {
+            selectedColorMouse = blueMickey;
+            Debug.Log("生成藍色");
+        }
+
+        var tempMouse = Instantiate(selectedColorMouse);
 
         if (currentActiveMouse != null)
         {
