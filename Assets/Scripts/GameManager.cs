@@ -133,12 +133,14 @@ public class GameManager : MonoBehaviour
     {
         if (roomMousecolor == puzzleReturnColor)
         {
+            currentHaveTime = mouseMoveDuration;
             currentCorrectNum++;
             PlayerMove(true);
             MouseColorChange();
         }
         else if(roomMousecolor != puzzleReturnColor)
         {
+            currentHaveTime = mouseMoveDuration;
             currentCorrectNum = 0;
             currentFalseNum++;
             PlayerMove(false);
@@ -146,6 +148,7 @@ public class GameManager : MonoBehaviour
         }
         else if (currentHaveTime <= 0f)
         {
+            currentHaveTime = mouseMoveDuration;
             currentCorrectNum = 0;
             currentFalseNum++;
             PlayerMove(false);
