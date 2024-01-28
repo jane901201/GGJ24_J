@@ -232,21 +232,18 @@ public class GameManager : MonoBehaviour
         //TODO:要問一下美術怎麼換色(直接生不同色的 Prefab?)
 
         int randomValue = Random.Range(0, 2);
-        
+
     }
 
     public void MouseCreate()
     {
-//<<<<<<< HEAD
-        currentActiveMouse = Instantiate(redMickey);
-//=======
-        //var tempMouse = Instantiate(mouse);
+        var tempMouse = Instantiate(redMickey);
+
         if (currentActiveMouse != null)
         {
             Destroy(currentActiveMouse.gameObject);
         }
-        //currentActiveMouse = tempMouse;
-//>>>>>>> GGJ24_J/master
+        currentActiveMouse = tempMouse;
         Debug.Log("Player Camera Rotation Y: " + playerCamera.transform.rotation);
         if (playerCamera.transform.rotation.w >= 1f)
         {
