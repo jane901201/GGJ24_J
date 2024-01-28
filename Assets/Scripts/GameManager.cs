@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
         {
             var animator = currentActiveMouse.GetComponent<Animator>();
             animator.SetTrigger("Run");
-            await UniTask.Delay(6000);
+            await UniTask.Delay(3000);
             Destroy(currentActiveMouse);
             Move();
         }
@@ -214,6 +214,8 @@ public class GameManager : MonoBehaviour
 
     public void VictoryCheck()
     {
+        var animator = currentActiveMouse.GetComponent<Animator>();
+        animator.SetTrigger("Run");
         if (roomMousecolor == puzzleReturnColor)
         {
             currentHaveTime = mouseMoveDuration;
