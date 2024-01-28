@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -59,6 +58,7 @@ public class UIManager : MonoBehaviour
 
     private void SetInteracbleClickOnShowButton(bool isValid)
     {
+        Debug.Log("SetInteracbleClickOnShowButton");
         hidePanelButton.SetInteracble(!isValid);
     }
 
@@ -66,6 +66,7 @@ public class UIManager : MonoBehaviour
     {
         MoveUIPanel(false);
         hidePanelButton.SetVisible(false);
+        GameManager.Instance.StopCountdown();
     }
     bool isFirst = true;
     private void DoOnPuzzple()
@@ -84,6 +85,7 @@ public class UIManager : MonoBehaviour
                 puzzleDatas[i].gameObject.SetActive(false);
             }
             bag.ResetBag();
+            puzzleDatas[random].ResetData();
             puzzleDatas[random].gameObject.SetActive(true);
 
         }
@@ -96,6 +98,7 @@ public class UIManager : MonoBehaviour
         MoveUIPanel(false);
         showPanelButton.SetVisible(true);
         OnHideUiPanel?.Invoke(false);
+        GameManager.Instance.StopCountdown();
         PuzzleManager.Instance.IsPuzzleHide = true;
     }
 
@@ -106,6 +109,7 @@ public class UIManager : MonoBehaviour
         MoveUIPanel(true);
         OnHideUiPanel?.Invoke(true);
         PuzzleManager.Instance.IsPuzzleHide = false;
+        GameManager.Instance.StartCountdown();
         if (GameManager.Instance.mouse != null)
         {
             GameManager.Instance.MouseMove();

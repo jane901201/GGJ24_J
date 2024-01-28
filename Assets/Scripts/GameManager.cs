@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -28,10 +27,12 @@ public class GameManager : MonoBehaviour
     
     public GameObject playerCamera;
     public GameObject mouse;
+    private Coroutine countdownCoroutine; // 保存 Coroutine 的引用
 
     
     bool _isPuzzling;
     private GameObject currentActiveMouse;
+    private float currentHaveTime = 0f;
 
     private void Awake()
     {
@@ -39,17 +40,15 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        //PuzzleManager.Instance.OnSuccessResult += PlayerMove;
         _isPuzzling = false;
         roomMousecolor = MouseColor.Red;
         puzzleReturnColor = MouseColor.Blue;
+        currentHaveTime = mouseMoveDuration;
     }
 
     private void Start()
     {
         PlayerForwordMove();
-        MouseCreate();
-        MouseMove();
     }
     
     private void Update()
@@ -72,6 +71,7 @@ public class GameManager : MonoBehaviour
     public void PlayerForwordMove()
     {
         Vector3 moveDir;
+        //TODO:playerCamera.transform.rotation.w >= 1f?
         if(playerCamera.transform.rotation.y == 0)
             moveDir = Vector3.forward;
         else
@@ -133,12 +133,22 @@ public class GameManager : MonoBehaviour
     {
         if (roomMousecolor == puzzleReturnColor)
         {
+            currentHaveTime = mouseMoveDuration;
             currentCorrectNum++;
             PlayerMove(true);
             MouseColorChange();
         }
         else if(roomMousecolor != puzzleReturnColor)
         {
+            currentHaveTime = mouseMoveDuration;
+            currentCorrectNum = 0;
+            currentFalseNum++;
+            PlayerMove(false);
+            MouseColorChange();
+        }
+        else if (currentHaveTime <= 0f)
+        {
+            currentHaveTime = mouseMoveDuration;
             currentCorrectNum = 0;
             currentFalseNum++;
             PlayerMove(false);
@@ -152,6 +162,34 @@ public class GameManager : MonoBehaviour
         else if (currentFalseNum >= 3)
         {
             GameOver();            
+        }
+    }
+    
+    public void StartCountdown()
+    {
+        countdownCoroutine = StartCoroutine(CountDown());
+    }
+
+    private IEnumerator CountDown()
+    {
+        while (currentHaveTime > 0)
+        {
+            Debug.Log("剩餘時間：" + currentHaveTime.ToString("F2")); // 以兩位小數顯示時間
+            yield return new WaitForSeconds(1.0f); // 每一秒等待一次
+
+            currentHaveTime -= 1.0f;
+        }
+
+        Debug.Log("倒數計時結束");
+    }
+    
+    public void StopCountdown()
+    {
+        // 在特定條件下停止 Coroutine
+        if (countdownCoroutine != null)
+        {
+            StopCoroutine(countdownCoroutine);
+            Debug.Log("倒數計時被手動停止");
         }
     }
     

@@ -23,6 +23,19 @@ public class PuzzleData : MonoBehaviour
     {
     }
 
+    public void ResetData()
+    {
+        for (int i = 0; i < notScretButtons.Count; i++)
+        {
+            notScretButtons[i].gameObject.SetActive(true);
+        }
+
+        for (int i = 0; i < scretButtons.Count; i++)
+        {
+            scretButtons[i].gameObject.SetActive(false);
+        }
+    }
+
     private void Start()
     {
         for (int i = 0; i < notScretButtons.Count; i++)
