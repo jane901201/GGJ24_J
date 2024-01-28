@@ -403,7 +403,7 @@ MonoBehaviour:
     - animator: {fileID: 5196271192967969118}
       previousAnimationTime: 1
       animationName: Explode
-  ReturnColorWaitTime: 0
+  ReturnColorWaitTime: 2
 --- !u!1 &5417271920822157022
 GameObject:
   m_ObjectHideFlags: 0
