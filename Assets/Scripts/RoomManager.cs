@@ -66,6 +66,7 @@ public class RoomManager : MonoBehaviour
             await UniTask.Delay(waitForOpenPuzzle * 1000);
 
             OnPuzzleGame.Invoke();//2D
+            GameManager.Instance.StartCountdown();
             Destroy(gameObject);
         }
         else if (gameObject.name == "TestMouse")
