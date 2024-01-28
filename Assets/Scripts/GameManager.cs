@@ -200,14 +200,14 @@ public class GameManager : MonoBehaviour
         if (roomMousecolor == puzzleReturnColor)
         {
             currentHaveTime = mouseMoveDuration;
-            currentCorrectNum++;
+            //currentCorrectNum++;
             PlayerMove(true);
         }
         else if (roomMousecolor != puzzleReturnColor)
         {
             currentHaveTime = mouseMoveDuration;
-            currentCorrectNum = 0;
-            currentFalseNum++;
+            //currentCorrectNum = 0;
+            //currentFalseNum++;
             PlayerMove(false);
         }
     }
@@ -286,11 +286,13 @@ public class GameManager : MonoBehaviour
         if (randomValue == 0)
         {
             selectedColorMouse = redMickey;
+            roomMousecolor = MouseColor.Red;
             Debug.Log("生成紅色");
         }
         else
         {
             selectedColorMouse = blueMickey;
+            roomMousecolor = MouseColor.Blue;
             Debug.Log("生成藍色");
         }
 
