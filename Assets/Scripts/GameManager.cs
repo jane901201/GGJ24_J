@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
         {
             var sss = Mathf.Abs(currentActiveMouse.transform.position.magnitude - playerCamera.transform.position.magnitude);
             //Debug.Log($"CheckMouseAndCamDistance {sss}");
-            if (sss <= 30)
+            if (sss <= 60)
             {
                 currentActiveMouse.transform.position = playerCamera.transform.forward + new Vector3(0, 0, playerCamera.transform.position.z>=0? playerCamera.transform.position.z + OffSetPosition : playerCamera.transform.position.z - OffSetPosition);
                 playerCamera.transform.DOKill();
@@ -123,6 +123,8 @@ public class GameManager : MonoBehaviour
         }
         if (wait6s)
         {
+            var animator = currentActiveMouse.GetComponent<Animator>();
+            animator.SetTrigger("Run");
             await UniTask.Delay(6000);
             Destroy(currentActiveMouse);
             Move();
