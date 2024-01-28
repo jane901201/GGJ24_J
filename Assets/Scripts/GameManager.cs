@@ -155,7 +155,6 @@ public class GameManager : MonoBehaviour
         }
     }
     
-    //TODO:選題的機制
     public void MouseColorChange()
     {
         //TODO:要問一下美術怎麼換色(直接生不同色的 Prefab?)
