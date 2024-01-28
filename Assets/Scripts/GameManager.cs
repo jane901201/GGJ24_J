@@ -381,11 +381,8 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GameOverCoroutine()
     {
-        //gameOverAnimator = GameManager.Instance.currentActiveMouse;
-        //gameOverAnimator.SetActive(true);
-        currentActiveMouse.GetComponent<Animator>().SetTrigger("JumpScare");
-        yield return new WaitForSeconds(gameOverWaitTime);
         Debug.Log("GameOver");
-        //SceneManager.LoadScene("StartMenuScene");
+        SceneManager.LoadScene("GameOverScene");
+        yield return new WaitForSeconds(gameOverWaitTime);
     }
 }
