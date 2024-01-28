@@ -353,7 +353,8 @@ public class GameManager : MonoBehaviour
     public void Victory()
     {
         //勝利動畫
-        StartCoroutine(VictoryCoroutine());
+        //WStartCoroutine(VictoryCoroutine());
+        VictoryAsync();
     }
 
     public IEnumerator VictoryCoroutine()
@@ -363,6 +364,15 @@ public class GameManager : MonoBehaviour
         Debug.Log("VictoryAnimComplete");
         SceneManager.LoadScene("StartMenuScene");
     }
+    
+    public async void VictoryAsync()
+    {
+        victoryAnimator.SetActive(true);
+        await UniTask.WaitForSeconds(victoryWaitTime);// new WaitForSeconds(victoryWaitTime);
+        Debug.Log("VictoryAnimComplete");
+        SceneManager.LoadScene("StartMenuScene");
+    }
+
 
     public void GameOver()
     {
