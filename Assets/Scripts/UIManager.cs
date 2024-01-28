@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
             Instance = this;
         }
 
+        puzzleDatas = new List<PuzzleData>();
         puzzleDatas = GetComponentsInChildren<PuzzleData>(true).ToList();
         Assert.IsNotNull(puzzleDatas);
         RoomManager.OnPuzzleGame += DoOnPuzzple;
@@ -74,18 +75,21 @@ public class UIManager : MonoBehaviour
         hidePanelButton.SetVisible(false);
         GameManager.Instance.StopCountdown();
     }
-    bool isFirst = true;
+    int isFirst = 0;
     private void DoOnPuzzple()
     {
         //await GameManager.Instance.WaitUI();
-        if (isFirst)
+        if (isFirst <= 1)
         {
+            Debug.Log("Do First");
             bag.ResetBag();
             puzzleDatas.First().gameObject.SetActive(true);
-            isFirst = false;
+            isFirst++;
         }
         else
         {
+            Debug.Log("No First");
+
             var random = UnityEngine.Random.Range(1, puzzleDatas.Count);
             for (int i = 0; i < puzzleDatas.Count; i++)
             {
