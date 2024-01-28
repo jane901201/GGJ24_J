@@ -397,22 +397,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allAnimation:
-    animationEventData:
-    - animator: {fileID: 0}
-      previousAnimationTime: 0
-      animationName: EatGrass
-    - animator: {fileID: 6088950433560564183}
-      previousAnimationTime: 2
-      animationName: Laugh
-    - animator: {fileID: 6088950433560564183}
-      previousAnimationTime: 0
-      animationName: KingKong
-    - animator: {fileID: 4360651290928611986}
-      previousAnimationTime: 2
-      animationName: Laugh
-    - animator: {fileID: 4360651290928611986}
-      previousAnimationTime: 0
-      animationName: KingKong
+    animationEventData: []
   ReturnColorWaitTime: 4
 --- !u!1 &5417271920822157022
 GameObject:
@@ -1520,11 +1505,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4238168007256039514, guid: ad4bc45a54cce32498b24c0ca428af21, type: 3}
   m_PrefabInstance: {fileID: 2551930006965976618}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &6088950433560564183 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 8640730906262990845, guid: ad4bc45a54cce32498b24c0ca428af21, type: 3}
-  m_PrefabInstance: {fileID: 2551930006965976618}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4044490014890219817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1622,11 +1602,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67c1f93fdfa653c4abb343b17beac8bd, type: 3}
---- !u!95 &4360651290928611986 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 334619887244893115, guid: 67c1f93fdfa653c4abb343b17beac8bd, type: 3}
-  m_PrefabInstance: {fileID: 4044490014890219817}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8196217745936125237 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5304741870954599452, guid: 67c1f93fdfa653c4abb343b17beac8bd, type: 3}
