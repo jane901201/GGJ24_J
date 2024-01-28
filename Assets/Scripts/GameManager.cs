@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -33,6 +34,15 @@ public class GameManager : MonoBehaviour
     bool _isPuzzling;
     private GameObject currentActiveMouse;
     private float currentHaveTime = 0f;
+    
+    public Animator victoryAnimator;
+    public float victoryWaitTime = 10f;
+    public string victoryTrigger = "Victory";
+    public Animator gameOverAnimator;
+    public float gameOverWaitTime = 10f;
+    public string gameOverTrigger = "GameOver";
+    
+    
 
     private void Awake()
     {
@@ -238,12 +248,27 @@ public class GameManager : MonoBehaviour
     public void Victory()
     {
         //勝利動畫
-        Debug.Log("Victory");
+        StartCoroutine(VictoryCoroutine());
     }
-
+    
+    public IEnumerator VictoryCoroutine()
+    {
+        victoryAnimator.SetTrigger(victoryTrigger);
+        yield return new WaitForSeconds(victoryWaitTime);
+        Debug.Log("VictoryAnimComplete");
+        SceneManager.LoadScene("StartMenuScene");
+    }
+    
     public void GameOver()
     {
-        //失敗動畫
+        StartCoroutine(GameOverCoroutine());
+    }
+
+    public IEnumerator GameOverCoroutine()
+    {
+        gameOverAnimator.SetTrigger(gameOverTrigger);
+        yield return new WaitForSeconds(gameOverWaitTime);
         Debug.Log("GameOver");
+        SceneManager.LoadScene("StartMenuScene");
     }
 }
