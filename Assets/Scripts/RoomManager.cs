@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -18,12 +19,14 @@ public class RoomManager : MonoBehaviour
     [Tooltip("遊戲結束的時候要生門出來")]
     public GameObject door;
 
+    public int waitForOpenPuzzle;
+
     private LinkedList<Room> rooms;
     public static bool isSolvingPuzzle = false;
     public static Action OnPuzzleGame;
-    
+
     private static RoomManager instance;
-    
+
     public static RoomManager Instance
     {
         get
@@ -46,8 +49,8 @@ public class RoomManager : MonoBehaviour
     {
         InitinalRoom();
     }
-    
-    public void TriggerPointEvent(GameObject gameObject)
+
+    public async void TriggerPointEvent(GameObject gameObject)
     {
         if (gameObject.name == "CreateRoomCheckPoint")
         {
@@ -56,18 +59,31 @@ public class RoomManager : MonoBehaviour
         else if (gameObject.name == "EventCheckPoint")
         {
             isSolvingPuzzle = true;
-            OnPuzzleGame.Invoke();
+
+            //Todo
+            GenerateMouseOnScene();
+
+            await UniTask.Delay(waitForOpenPuzzle * 1000);
+
+            OnPuzzleGame.Invoke();//2D
             Destroy(gameObject);
         }
-        else if(gameObject.name == "TestMouse")
+        else if (gameObject.name == "TestMouse")
         {
             //TODO:直接 GameOver 還是什麼?
         }
-        else if(gameObject.name == "Door")
+        else if (gameObject.name == "Door")
         {
             //TODO:播放勝利的動畫
         }
     }
+
+    private void GenerateMouseOnScene()
+    {
+        GameManager.Instance.MouseCreate();
+        GameManager.Instance.MouseMove();
+    }
+
 
     public void InitinalRoom()
     {
@@ -81,36 +97,36 @@ public class RoomManager : MonoBehaviour
         {
             tempRoom = Instantiate(room);
             tempRoom.transform.parent = transform;
-            tempRoom.transform.position = new Vector3(0, 0, (i + 1)*createRoomRange);
+            tempRoom.transform.position = new Vector3(0, 0, (i + 1) * createRoomRange);
             rooms.AddFirst(tempRoom.GetComponent<Room>());
         }
         for (int i = 0; i > -createRoomNum; i--)
         {
             tempRoom = Instantiate(room);
             tempRoom.transform.parent = transform;
-            tempRoom.transform.position = new Vector3(0, 0, (i - 1)*createRoomRange);
+            tempRoom.transform.position = new Vector3(0, 0, (i - 1) * createRoomRange);
             rooms.AddLast(tempRoom.GetComponent<Room>());
         }
     }
-    
+
     //生成房間，更改事件觸發的距離
     public void CreateForwordRoom()
     {
         GameObject tempRoom = Instantiate(room);
         tempRoom.transform.parent = transform;
-        tempRoom.transform.position = new Vector3(0, 0, (currentIndex + 2)*createRoomRange);
+        tempRoom.transform.position = new Vector3(0, 0, (currentIndex + 2) * createRoomRange);
         Room destoryRoom = rooms.Last.Value;
         rooms.AddFirst(tempRoom.GetComponent<Room>());
         rooms.RemoveLast();
         Destroy(destoryRoom);
         currentIndex++;
     }
-    
+
     public void CreateBackRoom()
     {
         GameObject tempRoom = Instantiate(room);
         tempRoom.transform.parent = transform;
-        tempRoom.transform.position = new Vector3(0, 0, (currentIndex + 2)*createRoomRange);
+        tempRoom.transform.position = new Vector3(0, 0, (currentIndex + 2) * createRoomRange);
         Room destoryRoom = rooms.First.Value;
         rooms.AddLast(tempRoom.GetComponent<Room>());
         rooms.RemoveFirst();
@@ -122,14 +138,14 @@ public class RoomManager : MonoBehaviour
     {
         if (cameraTransform.rotation.y == 0)
         {
-            if(PuzzleManager.Instance.IsSuccess)
+            if (PuzzleManager.Instance.IsSuccess)
                 CreateForwordRoom();
             else
                 CreateBackRoom();
         }
         else
         {
-            if(PuzzleManager.Instance.IsSuccess)
+            if (PuzzleManager.Instance.IsSuccess)
                 CreateBackRoom();
             else
                 CreateForwordRoom();
