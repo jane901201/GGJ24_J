@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //PlayerForwordMove();
+        PlayerForwordMove();
         MouseCreate();
         MouseMove();
     }
